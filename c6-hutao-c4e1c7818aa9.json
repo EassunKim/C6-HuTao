@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "c6-hutao",
+  "private_key_id": "c4e1c7818aa95885a2a9de49497e11b29de3ae0c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCPh4yrIMUSTxAD\nGRXWAJiT0zUebHbsbzXaIILqimuexfxWE+uj9dIMVrZknfTgwrkkkbSZireWlMvz\n8iOyuABB6rGhI2vNCSG+VscrsHNLKAZdTmfzavSkWHyCk2mxPLqu2bbP4WvmHmYn\n6hYll76t69o60K1zXTppAtu1BUhwGdedl9Pk5LdQHG/MCCTapworHxg60B9zbJGG\n1lqzc8I/p1UVFfopAypfvHgLGX5XrA4LvASD+z0O4a16kPGjxH7+X1hSyh8RA4B2\nPP1WNwTgW7f3+GIlG3ewEq+ywunNtBSjWmL1Tu0HuxqiA9aBOFKZs7/3KQPCybmZ\nG+fq3U+dAgMBAAECggEAB/X5vGgl5h0Sg0l555PC4rgdQyG6+uQ0NXQGLuIclALh\nOxkBwedZjiulFDGaqnjCch/Ox5FlG2oHYfF1P21rPjy5O3nOeeHeyELh6y9vRaTj\nrXsy0tKE3TS3OzrX6ue2ZwpWVHNpW6sl+WLHdbBT+CuTwB1g8XwjSD3LV+ACI42G\nGSQTJR81t/sTcx0FmxiRbsfNfUKp2e3MigJXj1dTSd/S6ZiA21R4Pj0V2IhmXrOX\nHQqcZ4H3p+WYEYS0Ijia5FY1wCFP7ThFrjU16KMZOWMfnmgZ8Em1/tIxi8vgWHi/\n9Ta+xs6X1vn0uuW09OBRVkACEwuXRd6im5mqvdwm4QKBgQDJJpWpHsIvxkg9ClAP\nrW3UAdE5Iaty7trXHAvyJziMSwtOMROSjnV2zgM/+GLUHT6cDG9MOPMzYLSALiLO\nC9Iu9sd0pWO6eV8VBaNjxoIq/ZcFEUBacFzRiCZK0CkMTgH/X9hORBbPIQ8SpQiK\nMPXkEEzQgDNiR+X/5s/EoxCPdQKBgQC2qrBzytQV7Vsa3mt6gw+fbJ2BNyJXiriS\nE4prz0kKWPWNzFEcDETpHSUJMi1FFrlgxMt0vu1Vrhakl81zUlAu3Ohhb1mSQvnI\nlIZvhwsiG+4b8KswLH6Kguap51w7bFJX47/GaN2AvViYuY2DfJvbumUC1AQvx4Ub\n7LtjMMciiQKBgBHlm/VDJlXn12+O5lauwJHXY40owL9mHxR6i1mNQcvBtYzMcwhc\nInlilQlxCSIERBjQRmrKumC83vJ0qGYaySWikVaAjKH/wIT3TnVHKTe3/mLWCRrC\n2o9OBNItOSm+GxFkrrMv/bOKJnQrONpKxuX2yU7XyTqaWQ1utNezBnstAoGALXwd\nSggEfZ1H5U3jF3ORLVJ/edB/xaquQPmKq0PHXUM/idqJi+FmO2Hdege7jAuXh4gZ\nXW25bW9XBg8iwoeJndG2L6Tpeekhh5esThMja4/m36AzEGDT9auYwk/xAH79lhMJ\nCt/L4CXF7OmvWkFqEfG8+1JN5JPbClQNaSqZO3kCgYAKJxCm+S+zpy6nE1lhs1FU\n23ejINE/jvuE6JRVPRByjhf1e+Q1VSbKgv/0AG2RBkl469/sz3dmdpLeCpY7Xxkb\ndX1jmKRxYZaKKHfM6MVnP7se4cXDW/3E1tfdnB/Si/uFkGtiyb8n8zLY1NHNWU+5\nUTEuy781oZ7fOQcXuT6fhw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "atri-leg@c6-hutao.iam.gserviceaccount.com",
+  "client_id": "108888233592301128548",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/atri-leg%40c6-hutao.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
