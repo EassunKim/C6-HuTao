@@ -13,6 +13,8 @@
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.1",
     "google-auth-library": "^7.14.1",
-    "googleapis": "^54.1.0"
+    "googleapis": "^54.1.0",
+    "moment-timezone": "^0.5.45",
+    "node-cron": "^3.0.3"
   }
 }
