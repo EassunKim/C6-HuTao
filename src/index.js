@@ -3,6 +3,7 @@ const {Client, IntentsBitField, ActivityType, MessageAttachment } = require('dis
 const path = require('path');
 const PREFIX = '$';
 const response = require('./responses');
+const gm = require('./gm')
 const cron = require('node-cron');
 const moment = require('moment-timezone');
 
@@ -18,6 +19,7 @@ const client = new Client ({
 
 //import of all message responses from repsonses.js
 response(client);
+gm(client);
 
 // Bot's status
 let status = [

@@ -1,3 +1,10 @@
+/*
+    Simple reply function for c6 HuTao bot
+    Contains simple cases wherein the bot will respond to messages when they are sent
+*/
+
+var path = require('path');
+
 module.exports = (client) => {
 
     // Hu Tao
@@ -10,29 +17,6 @@ module.exports = (client) => {
 
         if (contentL === string) {
             msg.reply(':3');
-        }
-    });
-
-    client.on('messageCreate', (msg) => {
-        if (msg.author.bot) {
-            return;
-        } 
-    
-        const contentL = msg.content.toLowerCase();
-        const lmao = client.channels.cache.get('1180431071704256513');
-        const toddID = '254436057087606786';
-        const string = "gm";
-    
-        if (contentL === string) {
-            const imagePath = 'H:/C6-HuTao/Assets/furina_pic.jpg';
-    
-            if (msg.author.id === `${toddID}`) {
-                lmao.send({ files: [{ attachment: 'H:/C6-HuTao/Assets/furina_pic.jpg'}]})
-                    .then(lmao.send(`<@${toddID}> Good Morning Todd!! Did you take your vitamins today?`))
-                    .catch(error => console.error('Error sending image:', error));
-            } else {
-                console.error("error");
-            }
         }
     });
 
