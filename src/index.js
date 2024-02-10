@@ -2,10 +2,10 @@ require('dotenv').config();
 const {Client, IntentsBitField, ActivityType, MessageAttachment } = require('discord.js');
 const path = require('path');
 const PREFIX = '$';
-const response = require('./responses');
-const gm = require('./gm')
+const response = require('../responses/responses');
+const gm = require('../responses/gm_message/gm')
 const cron = require('node-cron');
-const moment = require('moment-timezone');
+
 
 
 const client = new Client ({
@@ -40,6 +40,7 @@ let status = [
 client.on('ready', (c)=> {
     console.log(`${c.user.tag} is online`);
 
+    // Set Bot status randomly
     setInterval(() => {
         let random = Math.floor(Math.random() * status.length);
         client.user.setActivity(status[random]);
