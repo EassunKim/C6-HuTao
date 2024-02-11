@@ -8,7 +8,7 @@ module.exports = (client) => {
     let usersWhoInteracted = new Set();
     client.on('messageCreate', async message => {
         if (message.author.bot || !message.content.startsWith(prefix)) return; // Ignore bot messages and messages without prefix
-        
+        message.delete();
         //isolate variables
         const args = message.content.slice(prefix.length).split(/ +/);
         const command = args[0].toLowerCase();
@@ -17,7 +17,7 @@ module.exports = (client) => {
         let lf = args[2]; // game
 
         let msg = `> ${role} Let's play games!! \n > Looking for: ${lf - attending} \n > **Attending:**`;
-
+    
         //check if proper command sent
         if (role === undefined || lf === undefined) {
             message.channel.send(`> Use it properly :3 \n > $play <@Role or @people(no spaces)> <# of people wanted>`);
@@ -38,20 +38,21 @@ module.exports = (client) => {
 
             const reply = await message.channel.send({ content: `${msg}`, components: [row]});
             
-            const filter = (i) => i.user.id === message.author.id;
+            //const filter = (i) => i.user.id === message.author.id;
 
             const collector = reply.createMessageComponentCollector({
                 componentType: ComponentType.Button,
-                filter,
+                //filter,
             });
 
             collector.on('collect', (interaction) => {
-                if (interaction.customId === 'lf_people' && usersWhoInteracted.size != lf) {
+                if (interaction.customId === 'lf_people' && !usersWhoInteracted.has(interaction.user.id)) {
                     usersWhoInteracted.add(interaction.user.id);
                     attending++;
                     const remainingSpot = lf - attending;
 
                     msg += `\n > - <@${interaction.user.id}>`;
+                    console.log(usersWhoInteracted, attending);
 
                     if (remainingSpot === 0) {
                         msg = `${msg} \n > **Waitlist:**`;
