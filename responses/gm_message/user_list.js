@@ -19,7 +19,7 @@ const users = [
     new gmUser( //jooah
         'jooah',
         '687452592745349152',
-        ['yuka.webp'],
+        ['yuka.webp', 'shenhe.jpg', 'shenhe2.webp'],
         "Good morning Jooah~ your breakfast is on the way!"
     ),
 
@@ -30,11 +30,18 @@ const users = [
         "gm kyle lets drift"
     ),
 
-    new gmUser( //matt
-        'matt',
-        '1160719966551687199',
-        ['1.webp'],
-        "gmm"
+    new gmUser( //nathan
+        'pacfic fish',
+        '436031839690555402',
+        ['blue_fish.png'],
+        "BLUB BLUB BLUB BLUB BLUB"
+    ),
+
+    new gmUser( //bjs
+        'bjs',
+        '216784525085245441',
+        ['bjs.png'],
+        "Good morning"
     ),
 
 ];
