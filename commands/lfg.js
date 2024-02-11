@@ -5,6 +5,7 @@ const prefix = process.env.PREFIX;
 
 module.exports = (client) => {    
     let attending = 0;
+    let usersWhoInteracted = new Set();
     client.on('messageCreate', async message => {
         if (message.author.bot || !message.content.startsWith(prefix)) return; // Ignore bot messages and messages without prefix
         
@@ -15,28 +16,27 @@ module.exports = (client) => {
         let role = args[1]; // people
         let lf = args[2]; // game
 
-        let msg = `> ${role} Let's play games!! \n > Looking for: ${lf} \n > **Attending:**`;
-
-        const usersWhoInteracted = new Set();
+        let msg = `> ${role} Let's play games!! \n > Looking for: ${lf - attending} \n > **Attending:**`;
 
         //check if proper command sent
         if (role === undefined || lf === undefined) {
-            message.channel.send(`> Use it properly :3 \n > $play <@Role> <# of people wanted>`);
+            message.channel.send(`> Use it properly :3 \n > $play <@Role or @people(no spaces)> <# of people wanted>`);
             return;
         }
 
+        //Command body
         if (command === 'play') {
             attending = 0;
-
+            
+            //init button
             const button = new ButtonBuilder()
                 .setStyle(ButtonStyle.Primary)
                 .setLabel('Lets play!')
-                .setCustomId('click_button');
+                .setCustomId('lf_people');
 
-            const row = new ActionRowBuilder().addComponents(button);
+            let row = new ActionRowBuilder().addComponents(button);
 
             const reply = await message.channel.send({ content: `${msg}`, components: [row]});
-            lf--;
             
             const filter = (i) => i.user.id === message.author.id;
 
@@ -46,22 +46,26 @@ module.exports = (client) => {
             });
 
             collector.on('collect', (interaction) => {
-                
-                if (lf > 0 && interaction.customId === 'click_button' && !usersWhoInteracted.has(interaction.user.id)) {
-                    msg += `\n > - <@${interaction.user.id}>`;
-                    interaction.update(`${msg}`);
-                    lf = lf - 1;
+                if (interaction.customId === 'lf_people' && usersWhoInteracted.size != lf) {
                     usersWhoInteracted.add(interaction.user.id);
-                    return;
-                } else if (usersWhoInteracted.has(interaction.user.id)) {
-                    return;
-                } else {
-                    interaction.update(`> Lobby's Full!`);
+                    attending++;
+                    const remainingSpot = lf - attending;
+
+                    msg += `\n > - <@${interaction.user.id}>`;
+
+                    if (remainingSpot === 0) {
+                        msg = `${msg} \n > **Waitlist:**`;
+                        console.log(usersWhoInteracted, attending);
+                    };
+
+                    interaction.update(`${msg}`);
+
                     return;
                 }
-                
             });
         }
     });
 }
+
+            
 
