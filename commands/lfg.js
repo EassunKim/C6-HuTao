@@ -52,11 +52,9 @@ module.exports = (client) => {
                     const remainingSpot = lf - attending;
 
                     msg += `\n > - <@${interaction.user.id}>`;
-                    console.log(usersWhoInteracted, attending);
 
                     if (remainingSpot === 0) {
                         msg = `${msg} \n > **Waitlist:**`;
-                        console.log(usersWhoInteracted, attending);
                     };
 
                     interaction.update(`${msg}`);

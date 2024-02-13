@@ -45,7 +45,7 @@ module.exports = (client) => {
     
         if (contentL === string1 || contentL.includes(string2)) {
             if (msg.author.id === `${ID}`) {
-                channel.send({content: `${gmMessage}`, files: [`${imagePath}`]})
+                channel.send({content: `<@${ID}> ${gmMessage}`, files: [`${imagePath}`]})
                 .catch(error => console.error('Error sending image:', error));
             }
         }

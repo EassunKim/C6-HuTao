@@ -51,6 +51,13 @@ const users = [
         "Good morning"
     ),
 
+    new gmUser( //param
+        'param',
+        '297585779004276736',
+        ['car.webp'],
+        "lookin cute today param"
+    ),
+
 ];
 
 module.exports = users;
