@@ -16,7 +16,6 @@ C6 Hutao bot is a general use Discord bot developed by Matthew Kim
 **gm**
 > custom tailored good morning messages whenever a user types `'gm'`
 > <!-- -->
->  ____
 > <ins>Adding a message:</ins>
 > within `C6-Hutao/responses/gm_message/user_list.js` delete existing cases and add a new user as follows
 ```javascript
@@ -30,6 +29,11 @@ const users = [
 ]
 ```
 > place desired image into `C6-Hutao/responses/gm_message/Assets`
+
+**$play**
+> Command to @ a certain role and see who wants to play <!-- -->
+> <ins>Usage:</ins> `$play <Role, or person to @> <# of people desired>`  <!-- -->
+> The bot will then post a way for people to say they're coming to play and once more the `<# of people desired>` say they will attend names will be added to waitlist
 
 
 
