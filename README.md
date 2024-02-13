@@ -23,7 +23,7 @@ C6 Hutao bot is a general use Discord bot developed by Matthew Kim
 const users = [
      new gmUser(
          '<User name>',
-         '<new user's discord ID>',
+         '<new user\'s discord ID>',
          ['image name'],
          "<good morning message>"
      ),
