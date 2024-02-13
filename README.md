@@ -10,6 +10,7 @@ C6 Hutao bot is a general use Discord bot developed by Matthew Kim
 ## Commands
 **$roll**
 > Random roll from 1 to a set maximum defaulting to 100
+> 
 > ex. `$roll 200` will roll a random number between 1 to 200
 
 **gm**
