@@ -16,8 +16,8 @@ C6 Hutao bot is a general use Discord bot developed by Matthew Kim
 **gm**
 > custom tailored good morning messages whenever a user types `'gm'`
 > <!-- -->
+>  ____
 > <ins>Adding a message:</ins>
-> ____
 > within `C6-Hutao/responses/gm_message/user_list.js` delete existing cases and add a new user as follows
 ```javascript
 const users = [
