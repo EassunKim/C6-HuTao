@@ -9,23 +9,25 @@ C6 Hutao bot is a general use Discord bot developed by Matthew Kim
 
 ## Commands
 **$roll**
-Random roll from 1 to a set maximum defaulting to 100
-ex. `$roll 200` will roll a random number between 1 to 200
+> Random roll from 1 to a set maximum defaulting to 100
+> <div></div>
+> ex. `$roll 200` will roll a random number between 1 to 200
 
 **gm**
 custom tailored good morning messages whenever a user types `'gm'`
-Adding a message
-within `C6-Hutao/responses/gm_message/user_list.js` delete existing cases and add a new user as follows
+<ins>Adding a message:</ins>
+> within `C6-Hutao/responses/gm_message/user_list.js` delete existing cases and add a new user as follows
 ```javascript
 const users = [
-    // new gmUser(
-    //     '<User name>',
-    //     '<new user's discord ID>',
-    //     ['image name'],
-    //     "<good morning message>"
-    // ),
+     new gmUser(
+         '<User name>',
+         '<new user's discord ID>',
+         ['image name'],
+         "<good morning message>"
+     ),
 ]
 ```
+> place desired image into `C6-Hutao/responses/gm_message/Assets`
 
 
 
