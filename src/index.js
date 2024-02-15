@@ -10,6 +10,7 @@ const gm = require('../responses/gm_message/gm');
 const response = require('../responses/responses');
 const roll = require('../commands/roll');
 const play = require('../commands/lfg');
+const gn = require('../responses/gn/gn');
 
 // COMMAND PREFIX
 const PREFIX = '$';
@@ -29,7 +30,8 @@ const client = new Client ({
 response(client); // simple responses
 gm(client); // good morning messages
 roll(client); // roll command
-play(client);
+play(client);// play command
+gn(client);//gn message
 
 client.on('ready', (c)=> {
     console.log(`${c.user.tag} is online`);

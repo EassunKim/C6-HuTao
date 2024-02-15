@@ -27,7 +27,6 @@ module.exports = (client) => {
                 message.channel.send(`> Use it properly :3 \n > $play <@Role or @people(no spaces)> <# of people wanted>`);
                 return;
             }
-
             //init button
             const button = new ButtonBuilder()
                 .setStyle(ButtonStyle.Primary)
