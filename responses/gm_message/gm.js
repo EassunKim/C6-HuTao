@@ -14,20 +14,28 @@ module.exports = (client) => {
     //GLOBAL VAR
     const FILE_PATH = './responses/gm_message/Assets'; //Set path that contains image locations
 
-    // todd gm
+    // init var
+    let fileList, ID, random, img, gmMessage;
+
     client.on('messageCreate', (msg) => {
+        if (msg.author.bot) {return;}
+
         //find if user is in user_list
         const authorID = msg.author.id;
         const person = users.find(sender => sender.userID === authorID);
         if (!person) {
-            return;
+            // general case
+            gmMessage = "Good morning!";
+            ID = msg.author.id;
+            img = "hutao.jpg";
+     
+        } else {
+            fileList = person.imgName;
+            ID = person.userID;
+            random = Math.floor(Math.random() * fileList.length); // for random feature
+            img = fileList[random];
+            gmMessage = person.gmMessage;
         }
-
-        let fileList = person.imgName;
-        let ID = person.userID;
-        let random = Math.floor(Math.random() * fileList.length); // for random feature
-        let img = fileList[random];
-        let gmMessage = person.gmMessage;
         
         //1% rare image
         let rare = Math.floor(Math.random() * 100);
@@ -39,9 +47,7 @@ module.exports = (client) => {
         const contentL = msg.content.toLowerCase();
         const channel = client.channels.cache.get(`${msg.channel.id}`);
         const [string1, string2] = ["gm", "gm "];
-        const imagePath = path.join(`${FILE_PATH}`, `${img}`)
-
-        if (msg.author.bot) {return;}
+        const imagePath = path.join(`${FILE_PATH}`, `${img}`);
     
         if (contentL === string1 || contentL.includes(string2)) {
             if (msg.author.id === `${ID}`) {
