@@ -58,6 +58,13 @@ const users = [
         "lookin cute today param"
     ),
 
+    new gmUser( //taro
+    'taro',
+    '613596372796702740',
+    ['shiromi.webp'],
+    "KILL YOURSELF btw take ur vitamins"
+    ),
+
 ];
 
 module.exports = users;

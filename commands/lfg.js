@@ -7,7 +7,6 @@ module.exports = (client) => {
 
     client.on('messageCreate', async message => {
         if (message.author.bot || !message.content.startsWith(prefix)) return; // Ignore bot messages and messages without prefix
-        message.delete();
 
         let attending = 0;
         let usersWhoInteracted = new Set();
@@ -16,6 +15,7 @@ module.exports = (client) => {
         const command = args[0].toLowerCase();
 
         if (command === 'play') {
+            message.delete();
             let attending = 0;
             let usersWhoInteracted = new Set();
             let role = args[1]; // people
