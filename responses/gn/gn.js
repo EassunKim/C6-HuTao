@@ -18,7 +18,7 @@ module.exports = (client) => {
         fileList = fs.readdirSync(`${FILE_PATH}`);
         random = Math.floor(Math.random() * fileList.length); // for random feature
         img = fileList[random];
-        gnMessage = `gn~ sleep tight <@${ID}>`;
+        gnMessage = `gn~ sleep tight`;
 
         
         //1% rare image
