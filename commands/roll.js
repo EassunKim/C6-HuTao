@@ -23,5 +23,15 @@ module.exports = (client) => {
             const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min; // Generate a random integer between min and max
             message.channel.send(`BOOM!!! ${randomNumber}`);
         }
+        if (command === 'flip') {
+            let max = 100; // Default maximum value for the random number
+            const min = 1; // Minimum value for the random number (inclusive)
+            const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min; // Generate a random integer between min and max
+            if (randomNumber <= 50) {
+                message.channel.send(`Heads da yo`);
+            } else {
+                message.channel.send(`tails da yo`);
+            }
+        }
     });
 }
