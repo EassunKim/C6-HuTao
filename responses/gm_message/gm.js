@@ -47,7 +47,7 @@ module.exports = (client) => {
         const contentL = msg.content.toLowerCase();
         const channel = client.channels.cache.get(`${msg.channel.id}`);
         const [string1, string2] = ["gm", "gm "];
-        const imagePath = path.join(`${FILE_PATH}`, `${img}`);
+        const imagePath = path.join(`${FILE_PATH}`,person.name, `${img}`);
     
         if (contentL === string1 || contentL.includes(string2)) {
             if (msg.author.id === `${ID}`) {

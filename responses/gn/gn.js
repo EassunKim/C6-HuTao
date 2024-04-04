@@ -29,12 +29,11 @@ module.exports = (client) => {
         }
 
         const contentL = msg.content.toLowerCase();
-        const channel = client.channels.cache.get(`${msg.channel.id}`);
         const [string1, string2] = ["gn", "gn "];
         const imagePath = path.join(`${FILE_PATH}`, `${img}`);
     
         if (contentL === string1 || contentL.includes(string2)) {
-            channel.send({content: `<@${ID}> ${gnMessage}`, files: [`${imagePath}`]})
+            msg.reply({content: `${gnMessage}`, files: [`${imagePath}`]})
             .catch(error => console.error('Error sending image:', error));
         }
     });

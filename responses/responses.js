@@ -60,18 +60,18 @@ module.exports = (client) => {
         }
     });
 
-    //Water
-    client.on('messageCreate', (msg) => {
-        if (msg.author.bot) {
-            return;
-        }
-        let contentL = msg.content.toLowerCase();
-        let string = "water";
+    // //Water
+    // client.on('messageCreate', (msg) => {
+    //     if (msg.author.bot) {
+    //         return;
+    //     }
+    //     let contentL = msg.content.toLowerCase();
+    //     let string = "water";
 
-        if (contentL.includes(string)) {
-            msg.reply('and perhaps what is this?');
-        }
-    });
+    //     if (contentL.includes(string)) {
+    //         msg.reply('and perhaps what is this?');
+    //     }
+    // });
 
     //what is this
     client.on('messageCreate', (msg) => {
