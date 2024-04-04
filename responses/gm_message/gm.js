@@ -15,7 +15,7 @@ module.exports = (client) => {
     const FILE_PATH = './responses/gm_message/Assets'; //Set path that contains image locations
 
     // init var
-    let fileList, ID, random, img, gmMessage;
+    let fileList, ID, random, img, gmMessage, name;
 
     client.on('messageCreate', (msg) => {
         if (msg.author.bot) {return;}
@@ -28,6 +28,7 @@ module.exports = (client) => {
             gmMessage = "Good morning!";
             ID = msg.author.id;
             img = "hutao.jpg";
+            name = '';
      
         } else {
             fileList = person.imgName;
@@ -35,6 +36,7 @@ module.exports = (client) => {
             random = Math.floor(Math.random() * fileList.length); // for random feature
             img = fileList[random];
             gmMessage = person.gmMessage;
+            name = person.name
         }
         
         //1% rare image
@@ -47,7 +49,7 @@ module.exports = (client) => {
         const contentL = msg.content.toLowerCase();
         const channel = client.channels.cache.get(`${msg.channel.id}`);
         const [string1, string2] = ["gm", "gm "];
-        const imagePath = path.join(`${FILE_PATH}`,person.name, `${img}`);
+        const imagePath = path.join(`${FILE_PATH}`,name, `${img}`);
     
         if (contentL === string1 || contentL.startsWith(string2)) {
             if (msg.author.id === `${ID}`) {
