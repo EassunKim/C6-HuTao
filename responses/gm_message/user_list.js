@@ -22,7 +22,7 @@ const userDefinitions = [
     { name: 'fgsky', id: '97116639727738880', message: "Good morning FGSky these vitamins aren't going to take themselves" },
     { name: 'jooah', id: '687452592745349152', message: "Good morning Jooah~ your breakfast is on the way!" },
     { name: 'kyle', id: '478973799145013258', message: "gm kyle lets drift" },
-    { name: 'pacfic fish', id: '436031839690555402', message: "BLUB BLUB BLUB BLUB BLUB" },
+    { name: 'pacificfish', id: '436031839690555402', message: "BLUB BLUB BLUB BLUB BLUB + **VITAMINS**" },
     { name: 'bjs', id: '216784525085245441', message: "Good morning" },
     { name: 'param', id: '297585779004276736', message: "lookin cute today param" },
     { name: 'taro', id: '613596372796702740', message: "KILL YOURSELF btw take ur vitamins" },
