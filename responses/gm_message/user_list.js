@@ -17,7 +17,7 @@ function getImageFiles(directory) {
 }
 
 const userDefinitions = [
-    { name: 'test', id: '1160719966551687199', message: 'GMGMGMGGMMG'},
+    //{ name: 'test', id: '1160719966551687199', message: 'GMGMGMGGMMG'},
     { name: 'todd', id: '254436057087606786', message: 'Good Morning Todd!! Did you take your vitamins today?' },
     { name: 'fgsky', id: '97116639727738880', message: "Good morning FGSky these vitamins aren't going to take themselves" },
     { name: 'jooah', id: '687452592745349152', message: "Good morning Jooah~ your breakfast is on the way!" },
