@@ -49,7 +49,7 @@ module.exports = (client) => {
         const [string1, string2] = ["gm", "gm "];
         const imagePath = path.join(`${FILE_PATH}`,person.name, `${img}`);
     
-        if (contentL === string1 || contentL.includes(string2)) {
+        if (contentL === string1 || contentL.startsWith(string2)) {
             if (msg.author.id === `${ID}`) {
                 channel.send({content: `<@${ID}> ${gmMessage}`, files: [`${imagePath}`]})
                 .catch(error => console.error('Error sending image:', error));

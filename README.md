@@ -7,6 +7,9 @@ C6 Hutao bot is a general use Discord bot developed by Matthew Kim
 - Select any server you own or are an admin for and ensure to look over the permissions the bot asks for
 - Enjoy
 
+## For those running the bot
+- from C6-Hutao directory run `node src/index.js`
+
 ## Commands
 **$roll**
 > Random roll from 1 to a set maximum defaulting to 100
