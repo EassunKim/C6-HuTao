@@ -4,7 +4,6 @@ require('dotenv').config();
 const prefix = process.env.PREFIX;
 
 module.exports = (client) => {    
-
     client.on('messageCreate', async message => {
         if (message.author.bot || !message.content.startsWith(prefix)) return; // Ignore bot messages and messages without prefix
 
@@ -46,7 +45,6 @@ module.exports = (client) => {
                     usersWhoInteracted.add(interaction.user.id);
                     attending++;
                     const remainingSpot = lf - attending;
-                    console.log(usersWhoInteracted);
 
                     msg += `\n > - <@${interaction.user.id}>`;
 
