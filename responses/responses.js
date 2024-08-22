@@ -85,4 +85,15 @@ module.exports = (client) => {
             msg.reply('what is this?');
         }
     });
+
+    // SleepHill
+    client.on('messageCreate', (msg) => {
+        if (!msg.author.id !== '217028904890793984') {
+            return;
+        }
+
+        if (Math.random() < 0.001) {
+            msg.delete();
+        }
+    });
 }
