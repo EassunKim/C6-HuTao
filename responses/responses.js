@@ -92,7 +92,7 @@ module.exports = (client) => {
             return;
         }
 
-        if (Math.random() < 0.001) {
+        if (Math.random() < 0.01) {
             msg.delete();
         }
     });
