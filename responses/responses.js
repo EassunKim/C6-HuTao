@@ -1,99 +1,61 @@
-/*
-    Simple reply function for c6 HuTao bot
-    Contains simple cases wherein the bot will respond to messages when they are sent
-*/
+const path = require('path');
 
-var path = require('path');
+// Function to convert Twitter/X links to vxtwitter links
+const convertToVXLink = (content) => {
+    const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+/g;
+    return content.replace(twitterRegex, (url) => {
+        return url.replace(/(twitter\.com|x\.com)/, 'vxtwitter.com');
+    });
+};
 
 module.exports = (client) => {
+    const responses = [
+        {
+            trigger: ['hi'],
+            response: ':3',
+            callback: (msg) => msg.reply(':3'),
+        },
+        {
+            trigger: ['who', 'who?'],
+            response: 'Xiangling',
+            callback: (msg) => msg.reply('Xiangling'),
+        },
+        {
+            trigger: ['hu'],
+            response: 'Tao!',
+            callback: (msg) => msg.reply('Tao!'),
+        },
+        {
+            trigger: ['boo'],
+            response: 'Tao!',
+            callback: (msg) => msg.reply('Tao!'),
+        },
+        {
+            trigger: ['and perhaps'],
+            response: 'what is this?',
+            callback: (msg) => msg.reply('what is this?'),
+        }
+    ];
 
-    // Hu Tao
     client.on('messageCreate', (msg) => {
-        if (msg.author.bot) {
-            return;
-        }
-        let contentL = msg.content.toLowerCase();
-        let string = "hi";
+        if (msg.author.bot) return;
 
-        if (contentL === string) {
-            msg.reply(':3');
-        }
-    });
+        const contentL = msg.content.toLowerCase();
 
-    // xiangling
-    client.on('messageCreate', (msg) => {
-        if (msg.author.bot) {
-            return;
-        }
-        let contentL = msg.content.toLowerCase();
-        let string = "who";
-        let string2 = "who?";
+        responses.forEach(({ trigger, callback }) => {
+            if (trigger.includes(contentL)) {
+                callback(msg);
+            }
+        });
 
-        if (contentL === string || contentL === string2) {
-            msg.reply('Xiangling');
-        }
-    });
-
-    // Hu Tao
-    client.on('messageCreate', (msg) => {
-        if (msg.author.bot) {
-            return;
-        }
-        let contentL = msg.content.toLowerCase();
-        let string = "hu";
-
-        if (contentL === string) {
-            msg.reply('Tao!');
-        }
-    });
-
-    // Bootao
-    client.on('messageCreate', (msg) => {
-        if (msg.author.bot) {
-            return;
-        }
-        let contentL = msg.content.toLowerCase();
-        let string = "boo";
-
-        if (contentL === string) {
-            msg.reply('Tao!');
-        }
-    });
-
-    // //Water
-    // client.on('messageCreate', (msg) => {
-    //     if (msg.author.bot) {
-    //         return;
-    //     }
-    //     let contentL = msg.content.toLowerCase();
-    //     let string = "water";
-
-    //     if (contentL.includes(string)) {
-    //         msg.reply('and perhaps what is this?');
-    //     }
-    // });
-
-    //what is this
-    client.on('messageCreate', (msg) => {
-        if (msg.author.bot) {
-            return;
-        }
-        let contentL = msg.content.toLowerCase();
-        let string = "and perhaps";
-
-        if (contentL === string) {
-            msg.reply('what is this?');
-        }
-    });
-
-    // SleepHill
-    client.on('messageCreate', (msg) => {
-        if (!msg.author.id !== '217028904890793984') {
-            return;
+        const convertedContent = convertToVXLink(msg.content);
+        if (convertedContent !== msg.content) {
+            msg.reply(convertedContent);
         }
 
-        if (Math.random() < 0.01) {
+        // Special case for "SleepHill" user
+        if (msg.author.id === '217028904890793984' && Math.random() < 0.01) {
             msg.delete();
         }
     });
-}
+};
