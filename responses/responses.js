@@ -53,7 +53,8 @@ module.exports = (client) => {
 
         const convertedContent = convertToVXLink(msg.content);
         if (convertedContent) {
-            msg.reply(convertedContent);
+            msg.reply(convertedContent).then(() => {
+            msg.suppressEmbeds(true);
         }
 
         // Special case for "SleepHill" user
