@@ -3,10 +3,13 @@ const path = require('path');
 // Function to convert Twitter/X links to vxtwitter links
 const convertToVXLink = (content) => {
     const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+/g;
-    return content.replace(twitterRegex, (url) => {
-        return url.replace(/(twitter\.com|x\.com)/, 'vxtwitter.com');
-    });
+    const match = content.match(twitterRegex);
+    if (match) {
+        return match[0].replace(/(twitter\.com|x\.com)/, 'vxtwitter.com');
+    }
+    return null; 
 };
+
 
 module.exports = (client) => {
     const responses = [
@@ -49,7 +52,7 @@ module.exports = (client) => {
         });
 
         const convertedContent = convertToVXLink(msg.content);
-        if (convertedContent !== msg.content) {
+        if (convertedContent) {
             msg.reply(convertedContent);
         }
 
