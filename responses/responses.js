@@ -42,7 +42,7 @@ const generateRandomUnicodeString = (length = 2000) => {
 
     let result = '';
     for (let i = 0; i < length; i++) {
-        const range = languageUnicodeRanges[Math.floor(Math.random() * displayableUnicodeRanges.length)];
+        const range = languageUnicodeRanges[Math.floor(Math.random() * languageUnicodeRanges.length)];
         const charCode = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
         result += String.fromCharCode(charCode);
     }
