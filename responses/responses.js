@@ -10,6 +10,24 @@ const convertToVXLink = (content) => {
     return null; 
 };
 
+const generateRandomUnicodeString = (length = 2000) => {
+    let result = '';
+    
+    for (let i = 0; i < length; i++) {
+        const codePoint = Math.floor(Math.random() * 0x110000);
+
+        // Ensure it's a valid Unicode code point and not a surrogate pair (for BMP)
+        if (codePoint >= 0xD800 && codePoint <= 0xDFFF) {
+            i--;
+            continue;
+        }
+
+        result += String.fromCodePoint(codePoint)
+    }
+
+    return result;
+}
+
 
 module.exports = (client) => {
     const responses = [
@@ -40,7 +58,7 @@ module.exports = (client) => {
         }
     ];
 
-    client.on('messageCreate', (msg) => {
+    client.on('messageCreate', async (msg) => {
         if (msg.author.bot) return;
 
         const contentL = msg.content.toLowerCase();
@@ -58,13 +76,19 @@ module.exports = (client) => {
             });
         }
 
-        // Special case for "SleepHill" user
         if (msg.author.id === '217028904890793984' && Math.random() < 0.01) {
             msg.delete();
         }
 
         if (msg.author.id === '168110440159772672' && Math.random() < 0.05) {
             msg.reply("🖕");
+        }
+
+        if (msg.author.id === '133744863756812291') {
+            const reply = await msg.channel.send(generateRandomUnicodeString())
+            setTimeout(() => {
+                message.delete().catch(console.error);
+            }, 1000);
         }
     });
 };
