@@ -59,6 +59,16 @@ const containsCounterStrikeMention = (message) => {
     return wordRegex.test(lowerCaseMessage);
 }
 
+const getRandomFact = async () => {
+    try {
+        const response = await axios.get('https://uselessfacts.jsph.pl/api/v2/facts/random');
+        return response.data.text;
+    } catch (error) {
+        console.error('Error fetching the random fact:', error);
+        return null;  
+    }
+}
+
 module.exports = (client) => {
     const responses = [
         {
@@ -126,7 +136,7 @@ module.exports = (client) => {
         }
 
         if (msg.author.id === '478973799145013258' && Math.random() < 0.05) {
-            await msg.reply({files: ['responses/gm_message/Assets/kyle/princess-connect-kyaru.gif']})
+            const reply = await msg.reply({files: ['./responses/gm_message/Assets/kyle/princess-connect-kyaru.gif']})
 
             setTimeout(() => {
                 reply.delete().catch(console.error);
