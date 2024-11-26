@@ -11,18 +11,32 @@ const convertToVXLink = (content) => {
 };
 
 const generateRandomUnicodeString = (length = 2000) => {
+    const displayableUnicodeRanges = [
+        [0x0020, 0x007E], // Basic Latin (letters, digits, punctuation)
+        [0x00A0, 0x024F], // Latin-1 Supplement & Extended-A (letters, symbols)
+        [0x0300, 0x036F], // Combining Diacritical Marks (used for accents)
+        [0x0370, 0x03FF], // Greek and Coptic
+        [0x0400, 0x04FF], // Cyrillic
+        [0x0590, 0x05FF], // Hebrew
+        [0x0600, 0x06FF], // Arabic
+        [0x1F600, 0x1F64F], // Emoticons (emoji)
+        [0x1F680, 0x1F6FF], // Transport and Map Symbols (emoji)
+        [0x1F700, 0x1F77F], // Alchemical Symbols
+        [0x1F780, 0x1F7FF], // Geometric Shapes Extended
+        [0x1F800, 0x1F8FF], // Supplemental Arrows-C
+        [0x1F900, 0x1F9FF], // Supplemental Symbols and Pictographs
+        [0x2000, 0x206F], // General Punctuation
+        [0x2500, 0x257F], // Box Drawing
+        [0x3000, 0x303F], // CJK Symbols and Punctuation
+        [0xFF00, 0xFFEF], // Halfwidth and Fullwidth Forms
+        [0x200B, 0x200B], // Zero Width Space (invisible but displayable)
+    ];
+
     let result = '';
-    
     for (let i = 0; i < length; i++) {
-        const codePoint = Math.floor(Math.random() * 0x110000);
-
-        // Ensure it's a valid Unicode code point and not a surrogate pair (for BMP)
-        if (codePoint >= 0xD800 && codePoint <= 0xDFFF) {
-            i--;
-            continue;
-        }
-
-        result += String.fromCodePoint(codePoint)
+        const range = displayableUnicodeRanges[Math.floor(Math.random() * displayableUnicodeRanges.length)];
+        const charCode = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
+        result += String.fromCharCode(charCode);
     }
 
     return result;
