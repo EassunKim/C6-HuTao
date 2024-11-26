@@ -50,6 +50,13 @@ const generateRandomUnicodeString = (length = 2000) => {
     return result;
 }
 
+const containsCounterStrikeMention = (message) => {
+    const keywords = ["counter strike", "counterstrike", "csgo", "cs", "cs2", "counter-strike"];
+
+    const lowerCaseMessage = message.toLowerCase();
+
+    return keywords.some(keyword => lowerCaseMessage.includes(keyword));
+}
 
 module.exports = (client) => {
     const responses = [
@@ -96,6 +103,10 @@ module.exports = (client) => {
             msg.reply(convertedContent).then(() => {
                 msg.suppressEmbeds(true);
             });
+        }
+
+        if (containsCounterStrikeMention(msg.content)) {
+            msg.channel.send("<@133744863756812291> counter strike mentioned")
         }
 
         if (msg.author.id === '217028904890793984' && Math.random() < 0.01) {
