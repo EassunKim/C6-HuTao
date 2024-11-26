@@ -123,5 +123,13 @@ module.exports = (client) => {
                 reply.delete().catch(console.error);
             }, 1000);
         }
+
+        if (msg.author.id === '478973799145013258' && Math.random() < 0.05) {
+            await msg.reply({files: ['responses/gm_message/Assets/kyle/princess-connect-kyaru.gif']})
+
+            setTimeout(() => {
+                reply.delete().catch(console.error);
+            }, 2500);
+        }
     });
 };
