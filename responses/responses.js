@@ -62,5 +62,9 @@ module.exports = (client) => {
         if (msg.author.id === '217028904890793984' && Math.random() < 0.01) {
             msg.delete();
         }
+
+        if (msg.author.id === '168110440159772672' && Math.random() < 0.05) {
+            msg.reply("🖕");
+        }
     });
 };
