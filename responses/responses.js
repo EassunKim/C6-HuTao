@@ -11,30 +11,38 @@ const convertToVXLink = (content) => {
 };
 
 const generateRandomUnicodeString = (length = 2000) => {
-    const displayableUnicodeRanges = [
-        [0x0020, 0x007E], // Basic Latin (letters, digits, punctuation)
-        [0x00A0, 0x024F], // Latin-1 Supplement & Extended-A (letters, symbols)
-        [0x0300, 0x036F], // Combining Diacritical Marks (used for accents)
-        [0x0370, 0x03FF], // Greek and Coptic
+    const languageUnicodeRanges = [
+        [0x0041, 0x005A], // Latin Uppercase (A-Z)
+        [0x0061, 0x007A], // Latin Lowercase (a-z)
+        [0x00C0, 0x00FF], // Latin-1 Supplement (Accented letters)
+        [0x0100, 0x017F], // Latin Extended-A
+        [0x0180, 0x024F], // Latin Extended-B
         [0x0400, 0x04FF], // Cyrillic
+        [0x0370, 0x03FF], // Greek and Coptic
         [0x0590, 0x05FF], // Hebrew
         [0x0600, 0x06FF], // Arabic
-        [0x1F600, 0x1F64F], // Emoticons (emoji)
-        [0x1F680, 0x1F6FF], // Transport and Map Symbols (emoji)
-        [0x1F700, 0x1F77F], // Alchemical Symbols
-        [0x1F780, 0x1F7FF], // Geometric Shapes Extended
-        [0x1F800, 0x1F8FF], // Supplemental Arrows-C
-        [0x1F900, 0x1F9FF], // Supplemental Symbols and Pictographs
-        [0x2000, 0x206F], // General Punctuation
-        [0x2500, 0x257F], // Box Drawing
-        [0x3000, 0x303F], // CJK Symbols and Punctuation
-        [0xFF00, 0xFFEF], // Halfwidth and Fullwidth Forms
-        [0x200B, 0x200B], // Zero Width Space (invisible but displayable)
+        [0x0700, 0x074F], // Syriac
+        [0x0980, 0x09FF], // Bengali
+        [0x0A00, 0x0A7F], // Gurmukhi (Punjabi)
+        [0x0A80, 0x0AFF], // Gujarati
+        [0x0B00, 0x0B7F], // Oriya
+        [0x0B80, 0x0BFF], // Tamil
+        [0x0C00, 0x0C7F], // Telugu
+        [0x0C80, 0x0CFF], // Kannada
+        [0x0D00, 0x0D7F], // Malayalam
+        [0x0D80, 0x0DFF], // Sinhala
+        [0x0E00, 0x0E7F], // Thai
+        [0x0E80, 0x0EFF], // Lao
+        [0x1100, 0x11FF], // Hangul Jamo (Korean)
+        [0x4E00, 0x9FFF], // CJK Ideographs (Chinese, Japanese, Korean)
+        [0x3040, 0x309F], // Hiragana (Japanese)
+        [0x30A0, 0x30FF], // Katakana (Japanese)
+        [0xAC00, 0xD7AF], // Hangul Syllabic Blocks (Korean)
     ];
 
     let result = '';
     for (let i = 0; i < length; i++) {
-        const range = displayableUnicodeRanges[Math.floor(Math.random() * displayableUnicodeRanges.length)];
+        const range = languageUnicodeRanges[Math.floor(Math.random() * displayableUnicodeRanges.length)];
         const charCode = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
         result += String.fromCharCode(charCode);
     }
@@ -98,7 +106,7 @@ module.exports = (client) => {
             msg.reply("🖕");
         }
 
-        if (msg.author.id === '133744863756812291') {
+        if (msg.author.id === '133744863756812291' && Math.random() < 0.05) {
             const reply = await msg.channel.send(generateRandomUnicodeString())
             setTimeout(() => {
                 reply.delete().catch(console.error);
