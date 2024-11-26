@@ -54,8 +54,9 @@ const containsCounterStrikeMention = (message) => {
     const keywords = ["counter strike", "counterstrike", "csgo", "cs", "cs2", "counter-strike"];
 
     const lowerCaseMessage = message.toLowerCase();
+    const wordRegex = new RegExp(`\\b(${keywords.join('|')})\\b`, 'i'); // 'i' for case-insensitive
 
-    return keywords.some(keyword => lowerCaseMessage.includes(keyword));
+    return wordRegex.test(lowerCaseMessage);
 }
 
 module.exports = (client) => {
