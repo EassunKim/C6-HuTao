@@ -87,7 +87,7 @@ module.exports = (client) => {
         if (msg.author.id === '133744863756812291') {
             const reply = await msg.channel.send(generateRandomUnicodeString())
             setTimeout(() => {
-                message.delete().catch(console.error);
+                reply.delete().catch(console.error);
             }, 1000);
         }
     });
