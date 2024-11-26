@@ -60,4 +60,4 @@ client.on('ready', async (c)=> {
 });
 
 
-client.login(process.env.TOKEN);
+client.login(process.env.HUTAO_DISCORD_TOKEN);
