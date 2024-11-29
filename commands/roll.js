@@ -1,6 +1,6 @@
 // roll
 require('dotenv').config();
-const prefix = process.env.PREFIX;
+const prefix = '$';
 
 module.exports = (client) => {
     client.on('messageCreate', message => {

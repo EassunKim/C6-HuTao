@@ -1,7 +1,7 @@
 const {ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType} = require('discord.js');
 
 require('dotenv').config();
-const prefix = process.env.PREFIX;
+const prefix = '$';
 
 module.exports = (client) => {    
     client.on('messageCreate', async message => {
