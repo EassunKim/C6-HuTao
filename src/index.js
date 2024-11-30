@@ -14,12 +14,10 @@ const roll = require('../commands/roll');
 const play = require('../commands/lfg');
 const gn = require('../responses/gn/gn');
 const generateRandomUnicodeString = require('../utils/stringUtils');
-const getRandomBrightColor = require('../utils/colorUtils');
+const colorUtils = require('../utils/colorUtils');
 
 // COMMAND PREFIX
 const PREFIX = '$';
-
-
 
 const client = new Client ({
     intents: [
@@ -41,6 +39,11 @@ gn(client);//gn message
 client.on('ready', async (c)=> {
     console.log(`${c.user.tag} is online`);
 
+    const guild = await client.guilds.fetch('1097755762232672268');
+    const cycleRole = await guild.roles.fetch('1238342030871236660');
+    const majRole = await guild.roles.fetch('1290168753979396148');
+    const memberMonko2k = await guild.members.fetch('133744863756812291');
+
     // Set Bot status randomly
     const status = require('./status_list');
     setInterval(() => {
@@ -50,14 +53,18 @@ client.on('ready', async (c)=> {
 
     setInterval(async () => {
         const name = generateRandomUnicodeString(32);
-        const guild = await client.guilds.fetch('1097755762232672268');
-        const member = await guild.members.fetch('133744863756812291');
-        await member.setNickname(name);
+        await memberMonko2k.setNickname(name);
 
-        const role = await guild.roles.fetch('1290168753979396148');
-        const randomColor = getRandomBrightColor();
-        await role.setColor(randomColor);
+        const randomColor = colorUtils.getRandomBrightColor();
+        await majRole.setColor(randomColor);
     } , 2500);
+
+    let step = 0;
+    setInterval(async () => {
+        const newColor = colorUtils.getNextColorInSpectrum(step); 
+        await cycleRole.setColor(newColor);
+        step = (step + 1) % 1440;
+    }, 1000); 
 
     if (!mongoURL) return;
 
