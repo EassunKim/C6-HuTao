@@ -52,7 +52,7 @@ function hslToHex(h, s, l) {
 }
 
 function getNextColorInSpectrum(step) {
-    const hue = (step * 360) / 1440;
+    const hue = (step * 360) / 144;
     const saturation = 100;
     const lightness = 50;
     return hslToHex(hue, saturation, lightness);

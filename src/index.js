@@ -63,7 +63,7 @@ client.on('ready', async (c)=> {
     setInterval(async () => {
         const newColor = colorUtils.getNextColorInSpectrum(step); 
         await cycleRole.setColor(newColor);
-        step = (step + 1) % 1440;
+        step = (step + 1) % 144;
     }, 1000); 
 
     if (!mongoURL) return;
