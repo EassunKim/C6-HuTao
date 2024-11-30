@@ -90,11 +90,11 @@ module.exports = (client) => {
         }
 
         if (msg.author.id === '133744863756812291' && Math.random() < 1.00) {
-            await msg.react('B');
-            await msg.react('I');
-            await msg.react('T');
-            await msg.react('C');
-            await msg.react('H');
+            await msg.react('🇧');
+            await msg.react('🇮');
+            await msg.react('🇹');
+            await msg.react('🇨');
+            await msg.react('🇭');
             setTimeout(async () => {
                 await msg.reactions.removeAll();
             }, 1000);
