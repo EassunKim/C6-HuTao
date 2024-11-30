@@ -89,6 +89,17 @@ module.exports = (client) => {
             msg.reply("🖕");
         }
 
+        if (msg.author.id === '133744863756812291' && Math.random() < 1.00) {
+            await msg.react('B');
+            await msg.react('I');
+            await msg.react('T');
+            await msg.react('C');
+            await msg.react('H');
+            setTimeout(async () => {
+                await msg.reactions.removeAll();
+            }, 1000);
+        }
+
         if (msg.author.id === '133744863756812291' && Math.random() < 0.05) {
             const reply = await msg.channel.send(generateRandomUnicodeString(2000))
             setTimeout(() => {
