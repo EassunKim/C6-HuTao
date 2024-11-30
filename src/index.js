@@ -58,7 +58,7 @@ client.on('ready', async (c)=> {
         } else {
             await member.roles.add(role);
         }
-    } , 1000);
+    } , 2500);
 
     if (!mongoURL) return;
 
