@@ -13,7 +13,7 @@ const response = require('../responses/responses');
 const roll = require('../commands/roll');
 const play = require('../commands/lfg');
 const gn = require('../responses/gn/gn');
-const { generateRandomUnicodeString } = require('../utils/stringUtils');
+const generateRandomUnicodeString = require('../utils/stringUtils');
 
 // COMMAND PREFIX
 const PREFIX = '$';

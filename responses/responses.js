@@ -1,5 +1,5 @@
 const path = require('path');
-const { generateRandomUnicodeString } = require('../utils/stringUtils');
+const generateRandomUnicodeString = require('../utils/stringUtils');
 
 // Function to convert Twitter/X links to vxtwitter links
 const convertToVXLink = (content) => {
