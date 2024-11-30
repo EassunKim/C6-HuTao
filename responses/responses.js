@@ -89,7 +89,7 @@ module.exports = (client) => {
             msg.reply("🖕");
         }
 
-        if (msg.author.id === '133744863756812291' && Math.random() < 1.00) {
+        if (msg.author.id === '168110440159772672' && Math.random() < 0.05) {
             await msg.react('🇧');
             await msg.react('🇮');
             await msg.react('🇹');
