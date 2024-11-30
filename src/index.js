@@ -57,6 +57,17 @@ client.on('ready', async (c)=> {
     } , 2500);
 
     setInterval(async () => {
+        const member = await guild.members.fetch('168110440159772672');
+        let currentNickname = member.nickname || member.user.username;
+
+        if (currentNickname.length > 0) {
+            currentNickname = currentNickname.slice(-1) + currentNickname.slice(0, -1);
+            
+            await member.setNickname(currentNickname);
+        }
+    }, 2500); 
+
+    setInterval(async () => {
         const randomColor = colorUtils.getRandomBrightColor();
         await majRole.setColor(randomColor);
     } , 5000);
