@@ -40,9 +40,13 @@ client.on('ready', async (c)=> {
     console.log(`${c.user.tag} is online`);
 
     const guild = await client.guilds.fetch('1097755762232672268');
-    const cycleRole = await guild.roles.fetch('1238342030871236660');
+    const valRole = await guild.roles.fetch('1238342030871236660');
     const majRole = await guild.roles.fetch('1290168753979396148');
     const memberMonko2k = await guild.members.fetch('133744863756812291');
+
+    // TODO: refactor to set these through command
+    let cycleMajColor = false;
+    let cycleValRole = false;
 
     // Set Bot status randomly
     const status = require('./status_list');
@@ -67,17 +71,17 @@ client.on('ready', async (c)=> {
         }
     }, 2500); 
 
-    /*
     setInterval(async () => {
+        if (!cycleMajColor) return;
         const randomColor = colorUtils.getRandomBrightColor();
         await majRole.setColor(randomColor);
     } , 5000);
-     */
 
     let step = 0;
     setInterval(async () => {
+        if (!cycleValRole) return;
         const newColor = colorUtils.getNextColorInSpectrum(step); 
-        await cycleRole.setColor(newColor);
+        await valRole.setColor(newColor);
         step = (step + 1) % 144;
     }, 5000); 
 
