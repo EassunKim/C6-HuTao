@@ -54,17 +54,19 @@ client.on('ready', async (c)=> {
     setInterval(async () => {
         const name = generateRandomUnicodeString(32);
         await memberMonko2k.setNickname(name);
+    } , 2500);
 
+    setInterval(async () => {
         const randomColor = colorUtils.getRandomBrightColor();
         await majRole.setColor(randomColor);
-    } , 2500);
+    } , 5000);
 
     let step = 0;
     setInterval(async () => {
         const newColor = colorUtils.getNextColorInSpectrum(step); 
         await cycleRole.setColor(newColor);
-        step = (step + 1) % 100;
-    }, 2500); 
+        step = (step + 1) % 144;
+    }, 5000); 
 
     if (!mongoURL) return;
 
