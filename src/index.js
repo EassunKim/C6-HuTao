@@ -14,6 +14,7 @@ const roll = require('../commands/roll');
 const play = require('../commands/lfg');
 const gn = require('../responses/gn/gn');
 const generateRandomUnicodeString = require('../utils/stringUtils');
+const getRandomBrightColor = require('../utils/colorUtils');
 
 // COMMAND PREFIX
 const PREFIX = '$';
@@ -51,13 +52,11 @@ client.on('ready', async (c)=> {
         const name = generateRandomUnicodeString(32);
         const guild = await client.guilds.fetch('1097755762232672268');
         const member = await guild.members.fetch('133744863756812291');
-        const role = '1290168753979396148';
         await member.setNickname(name);
-        if (member.roles.cache.has(role)) {
-            await member.roles.remove(role);
-        } else {
-            await member.roles.add(role);
-        }
+
+        const role = await guild.roles.fetch('1290168753979396148');
+        const randomColor = getRandomBrightColor();
+        await role.setColor(randomColor);
     } , 2500);
 
     if (!mongoURL) return;
