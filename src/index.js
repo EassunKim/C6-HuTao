@@ -67,10 +67,12 @@ client.on('ready', async (c)=> {
         }
     }, 2500); 
 
+    /*
     setInterval(async () => {
         const randomColor = colorUtils.getRandomBrightColor();
         await majRole.setColor(randomColor);
     } , 5000);
+     */
 
     let step = 0;
     setInterval(async () => {
