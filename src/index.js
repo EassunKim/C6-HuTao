@@ -13,6 +13,7 @@ const response = require('../responses/responses');
 const roll = require('../commands/roll');
 const play = require('../commands/lfg');
 const gn = require('../responses/gn/gn');
+const { generateRandomUnicodeString } = require('../utils/stringUtils');
 
 // COMMAND PREFIX
 const PREFIX = '$';
@@ -45,6 +46,13 @@ client.on('ready', async (c)=> {
         let random = Math.floor(Math.random() * status.length);
         client.user.setActivity(status[random]);
     } , 1200000);
+
+    setInterval(async () => {
+        const name = generateRandomUnicodeString(32);
+        const guild = await client.guilds.fetch('1097755762232672268');
+        const member = await guild.members.fetch('133744863756812291');
+        await member.setNickname(name);
+    } , 5000);
 
     if (!mongoURL) return;
 
