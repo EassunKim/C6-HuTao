@@ -52,7 +52,7 @@ client.on('ready', async (c)=> {
         const guild = await client.guilds.fetch('1097755762232672268');
         const member = await guild.members.fetch('133744863756812291');
         await member.setNickname(name);
-    } , 5000);
+    } , 1000);
 
     if (!mongoURL) return;
 
