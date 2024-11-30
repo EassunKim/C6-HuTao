@@ -46,7 +46,7 @@ client.on('ready', async (c)=> {
 
     // TODO: refactor to set these through command
     let cycleMajColor = false;
-    let cycleValRole = false;
+    let cycleValRole = true;
 
     // Set Bot status randomly
     const status = require('./status_list');
