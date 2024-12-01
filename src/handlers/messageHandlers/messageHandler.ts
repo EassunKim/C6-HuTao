@@ -69,7 +69,11 @@ export const handleMessages = async (client: Client) => {
                 const targetNickname = targetMember.nickname || randomUser.username;
 
                 await guildMember?.setNickname(targetNickname);
-                await message.client.user?.setAvatar(randomUser.displayAvatarURL());
+                try {
+                    await message.client.user?.setAvatar(randomUser.displayAvatarURL());
+                } catch (e) {
+                    console.log('Failed to set avatar: ', e);
+                }
 
                 setTimeout(() => {
                     message.channel.sendTyping()
