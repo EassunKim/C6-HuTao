@@ -5,6 +5,9 @@ import { STATUS_CONSTANTS } from "./constants/statusConstants";
 import { handleMessages } from "./handlers/messageHandlers/messageHandler";
 import { generateRandomUnicodeString } from "./utils/stringUtils";
 import { getNextColorInSpectrum, getRandomBrightColor } from "./utils/colorUtils";
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const client = new Client ({
     intents: [
