@@ -47,7 +47,7 @@ export const handleMessages = async (client: Client) => {
         }
 
         if (message.mentions.users.size > 0) {
-            proc(1, () => impersonate.execute(message));
+            proc(0.01, () => impersonate.execute(message));
         }
     });
 }
