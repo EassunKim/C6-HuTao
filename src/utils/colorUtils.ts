@@ -1,4 +1,6 @@
-const brightColors = [
+import { ColorResolvable } from "discord.js";
+
+const brightColors: ColorResolvable[] = [
     '#FF6464', // Light Red
     '#FFFF64', // Yellow
     '#64FF64', // Light Green
@@ -7,13 +9,12 @@ const brightColors = [
     '#FF64FF', // Light Magenta
 ];
 
-// Function to generate a random bright color from the hex array
-const getRandomBrightColor = () => {
+export const getRandomBrightColor = () => {
     const randomIndex = Math.floor(Math.random() * brightColors.length);
     return brightColors[randomIndex];
 }
 
-function hslToHex(h, s, l) {
+const hslToHex = (h: number, s: number, l: number): ColorResolvable => {
     s /= 100;
     l /= 100;
     const c = (1 - Math.abs(2 * l - 1)) * s;
@@ -47,18 +48,13 @@ function hslToHex(h, s, l) {
         b = x;
     }
 
-    const rgbToHex = (x) => Math.round((x + m) * 255).toString(16).padStart(2, '0');
+    const rgbToHex = (x: number) => Math.round((x + m) * 255).toString(16).padStart(2, '0');
     return `#${rgbToHex(r)}${rgbToHex(g)}${rgbToHex(b)}`;
 }
 
-function getNextColorInSpectrum(step) {
+export const getNextColorInSpectrum = (step: number) => {
     const hue = (step * 360) / 144;
     const saturation = 100;
     const lightness = 50;
     return hslToHex(hue, saturation, lightness);
-}
-
-module.exports = {
-    getRandomBrightColor,
-    getNextColorInSpectrum,
 }

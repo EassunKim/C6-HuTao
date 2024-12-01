@@ -1,4 +1,4 @@
-const generateRandomUnicodeString = (length) => {
+export const generateRandomUnicodeString = (length: number) => {
     const languageUnicodeRanges = [
         [0x0041, 0x005A], // Latin Uppercase (A-Z)
         [0x0061, 0x007A], // Latin Lowercase (a-z)
@@ -37,5 +37,3 @@ const generateRandomUnicodeString = (length) => {
 
     return result;
 }
-
-module.exports = generateRandomUnicodeString;

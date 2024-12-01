@@ -1,9 +1,9 @@
-const { ActivityType } = require("discord.js");
+import { ActivityType } from "discord.js";
 
-let status = [
+export const STATUS_CONSTANTS = [
     {
         name: "Xiangling Paradise",
-        type: ActivityType.Listening,
+        type: ActivityType.Custom,
         url: "https://www.youtube.com/watch?v=OwMlnkUX354",
     },
     {
@@ -17,5 +17,3 @@ let status = [
         state: "Full refreshing"
     },
 ]
-
-module.exports = status;
