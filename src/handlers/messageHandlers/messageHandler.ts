@@ -44,6 +44,15 @@ export const handleMessages = async (client: Client) => {
         if (gmRegex.test(message.content)) {
             gm.execute(message);
         }
+
+        if (message.mentions.users.has(USER_KEVIN)) {
+            const targetUser = message.mentions.users.get(USER_KEVIN);
+            if (!targetUser) return;
+            const guildMember = message.guild?.members.cache.get(message.client.user?.id || '');
+            await guildMember?.setNickname(targetUser.username);
+            await message.client.user?.setAvatar(targetUser.displayAvatarURL());
+            message.reply("I'm Syed");
+        }
     });
 }
 
