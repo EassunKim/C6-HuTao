@@ -22,7 +22,7 @@ const execute = async (message: Message) => {
     const botRole = botUser?.roles.color;
 
     await botUser?.setNickname(targetMember.displayName);
-    await botRole?.setColor(targetMember.displayHexColor);
+    botRole?.setColor(targetMember.displayHexColor);
     try {
         await message.client.user?.setAvatar(targetMember.displayAvatarURL());
     } catch (e) {

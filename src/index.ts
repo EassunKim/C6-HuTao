@@ -67,7 +67,7 @@ client.on('ready', async (c)=> {
         const newColor = getNextColorInSpectrum(step); 
         await roleVal?.setColor(newColor);
         step = (step + 1) % 144;
-    }, 5000); 
+    }, 15000); 
 });
 
 client.login(process.env.HUTAO_DISCORD_TOKEN);
