@@ -1,5 +1,13 @@
 import { Message } from "discord.js"
 import { MessageHandler } from "../messageHandler"
+import { getAssetPath } from "../../../utils/fileUtils";
+
+const responses = [
+    'huh',
+    'one sec',
+    'idk',
+    'lol'
+]
 
 const execute = async (message: Message) => {
     const mentionedUsers = Array.from(message.mentions.users.values());
@@ -25,8 +33,16 @@ const execute = async (message: Message) => {
         await message.channel.sendTyping()
     }, 3000);
     setTimeout(async () => {
-        await message.channel.send('huh');
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        await message.channel.send(randomResponse);
     }, 6000);
+
+    // cleanup
+    setTimeout(async () => {
+        await guildMember?.setNickname(null);
+        const defaultAvatar = getAssetPath('default-avatar.png');
+        await message.client.user?.setAvatar(defaultAvatar);
+    }, 180000);
 }
 
 export const impersonate: MessageHandler = {
