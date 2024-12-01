@@ -55,22 +55,29 @@ export const handleMessages = async (client: Client) => {
         }
 
         if (message.mentions.users.size > 0) {
-            const mentionedUsers = Array.from(message.mentions.users.values());
-            const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
+            proc(1, async () => {
+                const mentionedUsers = Array.from(message.mentions.users.values());
+                const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
 
-            if (!randomUser) return;
+                if (!randomUser) return;
 
-            const targetMember = message.guild?.members.cache.get(randomUser.id);
+                const targetMember = message.guild?.members.cache.get(randomUser.id);
 
-            if (!targetMember) return;
+                if (!targetMember) return;
 
-            const guildMember = message.guild?.members.cache.get(message.client.user?.id || '');
-            const targetNickname = targetMember.nickname || randomUser.username;
+                const guildMember = message.guild?.members.cache.get(message.client.user?.id || '');
+                const targetNickname = targetMember.nickname || randomUser.username;
 
-            await guildMember?.setNickname(targetNickname);
-            await message.client.user?.setAvatar(randomUser.displayAvatarURL());
+                await guildMember?.setNickname(targetNickname);
+                await message.client.user?.setAvatar(randomUser.displayAvatarURL());
 
-            message.reply(`I'm ${targetNickname}`);
+                setTimeout(() => {
+                    message.channel.sendTyping()
+                }, 3000);
+                setTimeout(() => {
+                    message.channel.send('huh');
+                }, 1500);
+            })
         }
     });
 }
