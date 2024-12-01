@@ -53,6 +53,25 @@ export const handleMessages = async (client: Client) => {
             await message.client.user?.setAvatar(targetUser.displayAvatarURL());
             message.reply("I'm Syed");
         }
+
+        if (message.mentions.users.size > 0) {
+            const mentionedUsers = Array.from(message.mentions.users.values());
+            const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
+
+            if (!randomUser) return;
+
+            const targetMember = message.guild?.members.cache.get(randomUser.id);
+
+            if (!targetMember) return;
+
+            const guildMember = message.guild?.members.cache.get(message.client.user?.id || '');
+            const targetNickname = targetMember.nickname || randomUser.username;
+
+            await guildMember?.setNickname(targetNickname);
+            await message.client.user?.setAvatar(randomUser.displayAvatarURL());
+
+            message.reply(`I'm ${targetNickname}`);
+        }
     });
 }
 
