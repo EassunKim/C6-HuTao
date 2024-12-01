@@ -29,16 +29,15 @@ const execute = async (message: Message) => {
         console.log('Failed to set avatar: ', e);
     }
 
-    setTimeout(async () => {
-        await message.channel.sendTyping()
-    }, 3000);
-    setTimeout(async () => {
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        await message.channel.send(randomResponse);
-    }, 6000);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    await message.channel.sendTyping();
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+    const botMessage = await message.channel.send(randomResponse);
 
     // cleanup
     setTimeout(async () => {
+        await botMessage.delete();
         await guildMember?.setNickname(null);
         const defaultAvatar = getAssetPath('default-avatar.png');
         await message.client.user?.setAvatar(defaultAvatar);
