@@ -19,7 +19,7 @@ const execute = async (message: Message) => {
     if (!targetMember) return;
 
     const botUser = message.guild?.members.cache.get(message.client.user?.id || '');
-    const botRole = message.guild?.roles.cache.get(ROLE_HUTAO_COLOR);
+    const botRole = botUser?.roles.color;
 
     await botUser?.setNickname(targetMember.displayName);
     await botRole?.setColor(targetMember.displayHexColor);
