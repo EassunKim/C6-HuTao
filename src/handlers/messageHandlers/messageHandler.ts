@@ -80,7 +80,7 @@ export const handleMessages = async (client: Client) => {
                 }, 3000);
                 setTimeout(async () => {
                     await message.channel.send('huh');
-                }, 1500);
+                }, 6000);
             })
         }
     });
