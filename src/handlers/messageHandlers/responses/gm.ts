@@ -1,11 +1,11 @@
 import { Message } from "discord.js";
 import { MessageHandler } from "../messageHandler";
 import { USER_BJS, USER_FGSKY, USER_JOOAH, USER_KYLE, USER_PACIFICFISH, USER_TODD } from "../../../constants/entityIdConstants";
-import { getAssetPath, getRandomFile } from "../../../utils/fileUtils";
+import { getAssetPath, getRandomFilepath } from "../../../utils/fileUtils";
 import { proc } from "../../../utils/wrapperUtils";
 
 const getRandomUserFile = (user: string) => {
-    return getRandomFile(`gm/${user}`);
+    return getRandomFilepath(`gm/${user}`);
 }
 
 const execute = async (message: Message) => {

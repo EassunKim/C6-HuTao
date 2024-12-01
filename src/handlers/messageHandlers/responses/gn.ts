@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
-import { getAssetPath, getRandomFile } from "../../../utils/fileUtils";
+import { getAssetPath, getRandomFilepath } from "../../../utils/fileUtils";
 import { proc } from "../../../utils/wrapperUtils";
 import { MessageHandler } from "../messageHandler";
 
 const execute = async (message: Message) => {
-    let filePath = getRandomFile('gn/standard');
+    let filePath = getRandomFilepath('gn/standard');
     let response = 'gn~ sleep tight';
 
     proc(0.01, () => {
