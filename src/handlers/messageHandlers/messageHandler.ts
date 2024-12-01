@@ -125,6 +125,7 @@ const handleCommands = (message: Message) => {
             roll.execute(message, args)
             break;
         case 'lfg':
+        case 'play':
             lfg.execute(message, args)
             break;
     }
