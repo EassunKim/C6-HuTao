@@ -33,7 +33,7 @@ const execute = async (message: Message) => {
     await message.channel.sendTyping();
     await new Promise(resolve => setTimeout(resolve, 3000));
     const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-    const botMessage = await message.channel.send(randomResponse);
+    const botMessage = await message.reply(randomResponse);
 
     // cleanup
     setTimeout(async () => {
