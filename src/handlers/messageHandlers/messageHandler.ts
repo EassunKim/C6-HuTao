@@ -75,11 +75,11 @@ export const handleMessages = async (client: Client) => {
                     console.log('Failed to set avatar: ', e);
                 }
 
-                setTimeout(() => {
-                    message.channel.sendTyping()
+                setTimeout(async () => {
+                    await message.channel.sendTyping()
                 }, 3000);
-                setTimeout(() => {
-                    message.channel.send('huh');
+                setTimeout(async () => {
+                    await message.channel.send('huh');
                 }, 1500);
             })
         }
