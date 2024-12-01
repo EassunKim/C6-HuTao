@@ -9,6 +9,7 @@ import { lfg } from "./commands/lfg";
 import { gn } from "./responses/gn";
 import { gm } from "./responses/gm";
 import { generateRandomUnicodeString } from "../../utils/stringUtils";
+import { impersonate } from "./responses/impersonate";
 
 const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/[0-9]+/g;
 const counterStrikeRegex = /\b(counter strike|counterstrike|csgo|cs|cs2|counter-strike)\b/i;
@@ -45,43 +46,8 @@ export const handleMessages = async (client: Client) => {
             gm.execute(message);
         }
 
-        if (message.mentions.users.has(USER_KEVIN)) {
-            const targetUser = message.mentions.users.get(USER_KEVIN);
-            if (!targetUser) return;
-            const guildMember = message.guild?.members.cache.get(message.client.user?.id || '');
-            await guildMember?.setNickname(targetUser.username);
-            await message.client.user?.setAvatar(targetUser.displayAvatarURL());
-            message.reply("I'm Syed");
-        }
-
         if (message.mentions.users.size > 0) {
-            proc(1, async () => {
-                const mentionedUsers = Array.from(message.mentions.users.values());
-                const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
-
-                if (!randomUser) return;
-
-                const targetMember = message.guild?.members.cache.get(randomUser.id);
-
-                if (!targetMember) return;
-
-                const guildMember = message.guild?.members.cache.get(message.client.user?.id || '');
-                const targetNickname = targetMember.nickname || randomUser.username;
-
-                await guildMember?.setNickname(targetNickname);
-                try {
-                    await message.client.user?.setAvatar(randomUser.displayAvatarURL());
-                } catch (e) {
-                    console.log('Failed to set avatar: ', e);
-                }
-
-                setTimeout(async () => {
-                    await message.channel.sendTyping()
-                }, 3000);
-                setTimeout(async () => {
-                    await message.channel.send('huh');
-                }, 6000);
-            })
+            proc(1, () => impersonate.execute(message));
         }
     });
 }
