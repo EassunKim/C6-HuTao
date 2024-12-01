@@ -15,27 +15,23 @@ const LEAVE_CLICK = 'leave_click';
 
 const createEmbed = (role: string, targetCount: number, attendingList: string[], waitlist: string[], isFull: boolean): EmbedBuilder => {
     const embed = new EmbedBuilder()
-        .setTitle(`${role} ${isFull ? 'Game is Ready!' : "Let's play games!"}`)
+        .setTitle(`${isFull ? 'Game is Ready!' : "Let's play games!"}`)
         .setColor(isFull ? 0x00FF00 : 0xFF5733)
-        .addFields(
-            {
-                name: `Looking for: ${targetCount} players`,
-                value: `**Attending (${attendingList.length}/${targetCount}):**`,
-                inline: false,
-            },
-            {
-                name: 'Attending List',
-                value: attendingList.map(id => `<@${id}>`).join('\n') || 'None',
-                inline: false,
-            },
-            waitlist.length > 0
-                ? {
-                      name: 'Waitlist',
-                      value: waitlist.map(id => `<@${id}>`).join('\n'),
-                      inline: false,
-                  }
-                : { name: 'Waitlist', value: 'None', inline: false }
-        );
+        .setDescription(`Looking for: ${targetCount} players (${role})`)
+        .addFields({
+            name: `Attending (${attendingList.length}/${targetCount})`,
+            value: attendingList.map(id => `<@${id}>`).join('\n') || 'None',
+            inline: false,
+        });
+
+    if (waitlist.length > 0) {
+        embed.addFields({
+            name: 'Waitlist',
+            value: waitlist.map(id => `<@${id}>`).join('\n'),
+            inline: false,
+        });
+    }
+
     return embed;
 };
 
