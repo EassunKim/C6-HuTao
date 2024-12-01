@@ -1,6 +1,8 @@
 import { Message } from "discord.js"
 import { MessageHandler } from "../messageHandler"
 import { getAssetPath } from "../../../utils/fileUtils";
+import { ROLE_HUTAO_COLOR } from "../../../constants/entityIdConstants";
+import { getRandomBrightColor } from "../../../utils/colorUtils";
 
 const responses = [
     'huh',
@@ -13,18 +15,16 @@ const execute = async (message: Message) => {
     const mentionedUsers = Array.from(message.mentions.users.values());
     const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
 
-    if (!randomUser) return;
-
     const targetMember = message.guild?.members.cache.get(randomUser.id);
-
     if (!targetMember) return;
 
-    const guildMember = message.guild?.members.cache.get(message.client.user?.id || '');
-    const targetNickname = targetMember.nickname || randomUser.username;
+    const botUser = message.guild?.members.cache.get(message.client.user?.id || '');
+    const botRole = message.guild?.roles.cache.get(ROLE_HUTAO_COLOR);
 
-    await guildMember?.setNickname(targetNickname);
+    await botUser?.setNickname(targetMember.displayName);
+    await botRole?.setColor(targetMember.displayHexColor);
     try {
-        await message.client.user?.setAvatar(randomUser.displayAvatarURL());
+        await message.client.user?.setAvatar(targetMember.displayAvatarURL());
     } catch (e) {
         console.log('Failed to set avatar: ', e);
     }
@@ -38,7 +38,8 @@ const execute = async (message: Message) => {
     // cleanup
     setTimeout(async () => {
         await botMessage.delete();
-        await guildMember?.setNickname(null);
+        await botRole?.setColor(getRandomBrightColor())
+        await botUser?.setNickname(null);
         const defaultAvatar = getAssetPath('default-avatar.png');
         await message.client.user?.setAvatar(defaultAvatar);
     }, 180000);
