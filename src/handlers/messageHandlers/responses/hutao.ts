@@ -29,7 +29,7 @@ export class Hutao implements MessageHandler {
     private async generateResponse(message: string): Promise<string | null> {
         const prompt = `
             pretend you are hutao from genshin impact. Briefly respond to this message: ${message}
-            avoid using anything you would not use in verbal communication
+            avoid using anything you would not use in verbal communication. Act as if genshin impact is the real world
         `;
         try {
             const response = await this.openai.chat.completions.create({

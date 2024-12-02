@@ -1,5 +1,5 @@
 import { Client, IntentsBitField } from "discord.js";
-import { GUILD_UVIC, ROLE_HUTAO_COLOR, ROLE_MAJ, ROLE_VAL, USER_HUTAO, USER_KEVIN, USER_MAJ } from "./constants/entityIdConstants";
+import { GUILD_UVIC, ROLE_HUTAO_COLOR, ROLE_MAJ, ROLE_VAL, USER_HUTAO } from "./constants/entityIdConstants";
 import { STATUS_CONSTANTS } from "./constants/statusConstants";
 import { handleMessages } from "./handlers/messageHandlers/messageHandler";
 import { getNextColorInSpectrum, getRandomBrightColor } from "./utils/colorUtils";
