@@ -39,11 +39,14 @@ export class ImpersonateCommand implements MessageHandler {
             console.log("Failed to set avatar: ", e);
         }
 
+        const content = removeMentions(message.content);
+        if (!content) return;
+
         await new Promise((resolve) => setTimeout(resolve, 3000));
         await message.channel.sendTyping();
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        const response = await this.generateResponse(message);
+        const response = await this.generateResponse(content);
 
         await message.reply(response);
 
@@ -56,10 +59,9 @@ export class ImpersonateCommand implements MessageHandler {
         }, 180000);
     }
 
-    private async generateResponse(message: Message): Promise<string> {
-        const content = removeMentions(message.content);
+    private async generateResponse(message: string): Promise<string> {
         const prompt = `
-        Give a brief and neutral response that a gen z person would use to respond to this message: ${content}.
+        Give a brief and neutral response that a gen z person would use to respond to this message: ${message}.
         assume the sender is also gen z, don't use emojis, avoid correct punctuation and questions
         `
         try {

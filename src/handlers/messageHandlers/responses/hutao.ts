@@ -11,7 +11,9 @@ export class Hutao implements MessageHandler {
     }
 
     async execute(message: Message): Promise<void> {
-        const response = await this.generateResponse(message);
+        const content = removeMentions(message.content);
+        if (!content) return;
+        const response = await this.generateResponse(content);
 
         if (!response) {
             return;
@@ -24,9 +26,11 @@ export class Hutao implements MessageHandler {
         await message.reply(response);
     }
 
-    private async generateResponse(message: Message): Promise<string | null> {
-        const content = removeMentions(message.content);
-        const prompt = `pretend you are hutao from genshin impact. Respond to this message: ${content}`;
+    private async generateResponse(message: string): Promise<string | null> {
+        const prompt = `
+            pretend you are hutao from genshin impact. Briefly respond to this message: ${message}
+            avoid using anything you would not use in verbal communication
+        `;
         try {
             const response = await this.openai.chat.completions.create({
                 model: "gpt-3.5-turbo",
