@@ -37,3 +37,14 @@ export const generateRandomUnicodeString = (length: number) => {
 
     return result;
 }
+
+export const removeMentions = (message: string) => {
+    return message
+        // Remove user mentions (e.g., <@123456789012345678>)
+        .replace(/<@!?(\d+)>/g, "")
+        // Remove role mentions (e.g., <@&123456789012345678>)
+        .replace(/<@&(\d+)>/g, "")
+        // Remove channel mentions (e.g., <#123456789012345678>)
+        .replace(/<#(\d+)>/g, "")
+        .trim();
+}

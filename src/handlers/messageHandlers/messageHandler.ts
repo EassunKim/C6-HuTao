@@ -1,5 +1,5 @@
 import { Client, Message } from "discord.js";
-import { USER_KEVIN, USER_KYLE, USER_MAJ, USER_SLEEPHILL } from "../../constants/entityIdConstants";
+import { USER_HUTAO, USER_KEVIN, USER_KYLE, USER_MAJ, USER_SLEEPHILL } from "../../constants/entityIdConstants";
 import { delayDelete, delayRemoveReactions, proc } from "../../utils/wrapperUtils";
 import { COMMAND_PREFIX, MESSAGE_MAX_LENGTH } from "../../constants/globalConstants";
 import { getAssetPath } from "../../utils/fileUtils";
@@ -13,6 +13,7 @@ import { ImpersonateCommand } from "./responses/impersonate";
 import { yt } from "./commands/yt";
 import { thumbnail } from "./commands/thumbnail";
 import OpenAI from "openai";
+import { Hutao } from "./responses/hutao";
 
 const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/[0-9]+/g;
 const counterStrikeRegex = /\b(counter strike|counterstrike|csgo|cs|cs2|counter-strike)\b/i;
@@ -27,6 +28,7 @@ export interface MessageHandler {
 export const handleMessages = async (client: Client, openai: OpenAI) => {
 
     const impersonate = new ImpersonateCommand(openai)
+    const hutao = new Hutao(openai);
 
     client.on('messageCreate', async (message) => {
         if (message.author.bot) return;
@@ -55,6 +57,10 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
 
         if (message.mentions.users.size > 0) {
             proc(0.25, () => impersonate.execute(message));
+        }
+
+        if (message.mentions.has(USER_HUTAO)) {
+            hutao.execute(message);
         }
     });
 }

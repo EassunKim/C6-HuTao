@@ -4,6 +4,7 @@ import { getAssetPath } from "../../../utils/fileUtils";
 import { ROLE_HUTAO_COLOR } from "../../../constants/entityIdConstants";
 import { getRandomBrightColor } from "../../../utils/colorUtils";
 import OpenAI from "openai";
+import { removeMentions } from "../../../utils/stringUtils";
 
 export class ImpersonateCommand implements MessageHandler {
     private openai: OpenAI;
@@ -55,7 +56,7 @@ export class ImpersonateCommand implements MessageHandler {
     }
 
     private async generateResponse(message: Message): Promise<string> {
-        const content = this.removeMentions(message);
+        const content = removeMentions(message.content);
         const prompt = `
         Give a brief and neutral response that a gen z person would use to respond to this message: ${content}.
         assume the sender is also gen z, don't use emojis, avoid correct punctuation and questions
@@ -84,15 +85,4 @@ export class ImpersonateCommand implements MessageHandler {
             Math.floor(Math.random() * this.fallbackResponses.length)
         ];
     }
-    
-    private  removeMentions = (message: Message): string => {
-        return message.content
-            // Remove user mentions (e.g., <@123456789012345678>)
-            .replace(/<@!?(\d+)>/g, "")
-            // Remove role mentions (e.g., <@&123456789012345678>)
-            .replace(/<@&(\d+)>/g, "")
-            // Remove channel mentions (e.g., <#123456789012345678>)
-            .replace(/<#(\d+)>/g, "")
-            .trim();
-    };
 }
