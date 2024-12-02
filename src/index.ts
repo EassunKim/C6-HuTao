@@ -1,5 +1,5 @@
 import { Client, IntentsBitField } from "discord.js";
-import { GUILD_UVIC, ROLE_MAJ, ROLE_VAL, USER_KEVIN, USER_MAJ } from "./constants/entityIdConstants";
+import { GUILD_UVIC, ROLE_HUTAO_COLOR, ROLE_MAJ, ROLE_VAL, USER_HUTAO, USER_KEVIN, USER_MAJ } from "./constants/entityIdConstants";
 import { NICKNAME_MAX_LENGTH } from "./constants/globalConstants";
 import { STATUS_CONSTANTS } from "./constants/statusConstants";
 import { handleMessages } from "./handlers/messageHandlers/messageHandler";
@@ -7,6 +7,7 @@ import { generateRandomUnicodeString } from "./utils/stringUtils";
 import { getNextColorInSpectrum, getRandomBrightColor } from "./utils/colorUtils";
 import * as dotenv from 'dotenv';
 import OpenAI from "openai";
+import { getAssetPath } from "./utils/fileUtils";
 
 dotenv.config();
 
@@ -33,8 +34,15 @@ client.on('ready', async (c)=> {
     const guild = await client.guilds.fetch(GUILD_UVIC);
     const roleVal = await guild.roles.fetch(ROLE_VAL);
     const roleMaj = await guild.roles.fetch(ROLE_MAJ);
+    const roleHutaoColor = await guild.roles.fetch(ROLE_HUTAO_COLOR);
     const userKevin = await guild.members.fetch(USER_KEVIN);
     const userMaj = await guild.members.fetch(USER_MAJ);
+    const userHutao = await guild.members.fetch(USER_HUTAO);
+
+    roleHutaoColor?.setColor(getRandomBrightColor());
+    userHutao?.setNickname(null);
+    const defaultAvatar = getAssetPath("default-avatar.png");
+    client.user?.setAvatar(defaultAvatar);
 
     // TODO: refactor to set these through command
     let cycleMajColor = false;
