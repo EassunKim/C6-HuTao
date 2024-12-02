@@ -10,6 +10,7 @@ import { gn } from "./responses/gn";
 import { gm } from "./responses/gm";
 import { generateRandomUnicodeString } from "../../utils/stringUtils";
 import { impersonate } from "./responses/impersonate";
+import { yt } from "./commands/yt";
 
 const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/[0-9]+/g;
 const counterStrikeRegex = /\b(counter strike|counterstrike|csgo|cs|cs2|counter-strike)\b/i;
@@ -127,6 +128,9 @@ const handleCommands = (message: Message) => {
         case 'lfg':
         case 'play':
             lfg.execute(message, args)
+            break;
+        case 'yt':
+            yt.execute(message, args)
             break;
     }
 }

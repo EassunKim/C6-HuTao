@@ -11,12 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/voice": "^0.18.0",
+    "@distube/ytdl-core": "^4.15.1",
+    "discord-api-types": "^0.37.110",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.1"
   },
   "devDependencies": {
-    "typescript": "^5.7.2",
     "@types/node": "^20.7.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.7.2"
   }
 }
