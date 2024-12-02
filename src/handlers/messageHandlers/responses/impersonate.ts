@@ -21,9 +21,10 @@ export class ImpersonateCommand implements MessageHandler {
     }
 
     async execute(message: Message): Promise<void> {
-        const mentionedUsers = Array.from(message.mentions.users.values());
+        const mentionedUsers = Array.from(message.mentions.users.values())
+            .filter(user => !user.bot);
         const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
-        if (randomUser.id === USER_HUTAO) return; // don't impersonate self lol
+        if (mentionedUsers.length === 0) return;
 
         const targetMember = message.guild?.members.cache.get(randomUser.id);
         if (!targetMember) return;
