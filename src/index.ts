@@ -1,9 +1,7 @@
 import { Client, IntentsBitField } from "discord.js";
 import { GUILD_UVIC, ROLE_HUTAO_COLOR, ROLE_MAJ, ROLE_VAL, USER_HUTAO, USER_KEVIN, USER_MAJ } from "./constants/entityIdConstants";
-import { NICKNAME_MAX_LENGTH } from "./constants/globalConstants";
 import { STATUS_CONSTANTS } from "./constants/statusConstants";
 import { handleMessages } from "./handlers/messageHandlers/messageHandler";
-import { generateRandomUnicodeString } from "./utils/stringUtils";
 import { getNextColorInSpectrum, getRandomBrightColor } from "./utils/colorUtils";
 import * as dotenv from 'dotenv';
 import OpenAI from "openai";
@@ -35,8 +33,6 @@ client.on('ready', async (c)=> {
     const roleVal = await guild.roles.fetch(ROLE_VAL);
     const roleMaj = await guild.roles.fetch(ROLE_MAJ);
     const roleHutaoColor = await guild.roles.fetch(ROLE_HUTAO_COLOR);
-    const userKevin = await guild.members.fetch(USER_KEVIN);
-    const userMaj = await guild.members.fetch(USER_MAJ);
     const userHutao = await guild.members.fetch(USER_HUTAO);
 
     roleHutaoColor?.setColor(getRandomBrightColor());
@@ -53,19 +49,6 @@ client.on('ready', async (c)=> {
         let random = Math.floor(Math.random() * STATUS_CONSTANTS.length);
         client.user?.setActivity(STATUS_CONSTANTS[random]);
     } , 1200000);
-
-    setInterval(async () => {
-        userKevin.setNickname(generateRandomUnicodeString(NICKNAME_MAX_LENGTH));
-    } , 2500);
-
-    setInterval(async () => {
-        let currentNickname = userMaj.nickname || userMaj.user.username;
-
-        if (currentNickname.length > 0) {
-            currentNickname = currentNickname.slice(-1) + currentNickname.slice(0, -1);
-            userMaj.setNickname(currentNickname);
-        }
-    }, 2500); 
 
     setInterval(async () => {
         if (!cycleMajColor) return;
