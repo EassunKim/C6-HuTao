@@ -9,9 +9,10 @@ import { lfg } from "./commands/lfg";
 import { gn } from "./responses/gn";
 import { gm } from "./responses/gm";
 import { generateRandomUnicodeString } from "../../utils/stringUtils";
-import { impersonate } from "./responses/impersonate";
+import { ImpersonateCommand } from "./responses/impersonate";
 import { yt } from "./commands/yt";
 import { thumbnail } from "./commands/thumbnail";
+import OpenAI from "openai";
 
 const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/[0-9]+/g;
 const counterStrikeRegex = /\b(counter strike|counterstrike|csgo|cs|cs2|counter-strike)\b/i;
@@ -19,14 +20,14 @@ const gnRegex = /^gn(\s|$)/i;
 const gmRegex = /^gm(\s|$)/i;
 
 export interface MessageHandler {
-    execute: (
-        message: Message,
-        args?: string[],
-        dependencies?: Record<string, any>
-    ) => Promise<void>;
+    execute: (message: Message, args?: string[]) => Promise<void>;
 }
 
-export const handleMessages = async (client: Client) => {
+
+export const handleMessages = async (client: Client, openai: OpenAI) => {
+
+    const impersonate = new ImpersonateCommand(openai)
+
     client.on('messageCreate', async (message) => {
         if (message.author.bot) return;
 
@@ -53,7 +54,7 @@ export const handleMessages = async (client: Client) => {
         }
 
         if (message.mentions.users.size > 0) {
-            proc(0.05, () => impersonate.execute(message));
+            proc(0.25, () => impersonate.execute(message));
         }
     });
 }

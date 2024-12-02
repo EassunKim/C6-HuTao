@@ -6,6 +6,7 @@ import { handleMessages } from "./handlers/messageHandlers/messageHandler";
 import { generateRandomUnicodeString } from "./utils/stringUtils";
 import { getNextColorInSpectrum, getRandomBrightColor } from "./utils/colorUtils";
 import * as dotenv from 'dotenv';
+import OpenAI from "openai";
 
 dotenv.config();
 
@@ -19,8 +20,10 @@ const client = new Client ({
     ]
 });
 
+const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+
 /* ===== HANDLERS ===== */
-handleMessages(client);
+handleMessages(client, openai);
 
 /*===== READY ===== */
 client.on('ready', async (c)=> {
