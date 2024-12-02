@@ -79,8 +79,6 @@ const execute = async (message: Message) => {
         return;
     }
 
-    await message.delete();
-
     let attendingList: string[] = [];
     let waitlist: string[] = [];
 
