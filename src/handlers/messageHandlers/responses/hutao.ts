@@ -30,7 +30,7 @@ export class Hutao implements MessageHandler {
 
         await message.reply(response);
 
-        this.addToChatHistory("assistant", `Hutao: ${response}`);
+        this.addToChatHistory("assistant", response);
     }
 
     private async generateResponse(): Promise<string | null> {
@@ -38,7 +38,6 @@ export class Hutao implements MessageHandler {
             pretend you are Hutao from genshin impact. 
             mimic only verbal communication. 
             Keep responses brief.
-            Do not include "Hutao:" in your responses.
             Act as if genshin impact is the real world
             `;
 
