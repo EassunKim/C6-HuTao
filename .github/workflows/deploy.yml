@@ -25,4 +25,5 @@ jobs:
           git pull
           npm install
           npm run build
-          pm2 reload hutao
+          pm2 reload ecosystem.config.js
+          
