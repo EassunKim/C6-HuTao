@@ -42,7 +42,7 @@ client.on('ready', async (c)=> {
 
     // TODO: refactor to set these through command
     let cycleMajColor = false;
-    let cycleValRole = true;
+    let cycleValRole = false;
 
     // Set Bot status randomly
     setInterval(() => {

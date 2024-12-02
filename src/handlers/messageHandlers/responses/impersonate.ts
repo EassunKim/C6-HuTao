@@ -53,11 +53,11 @@ export class ImpersonateCommand implements MessageHandler {
 
         // Cleanup
         setTimeout(async () => {
-            await botRole?.setColor(getRandomBrightColor());
             await botUser?.setNickname(null);
             const defaultAvatar = getAssetPath("default-avatar.png");
             await message.client.user?.setAvatar(defaultAvatar);
-        }, 180000);
+            await botRole?.setColor(getRandomBrightColor());
+        }, 60000);
     }
 
     private async generateResponse(message: string): Promise<string> {
