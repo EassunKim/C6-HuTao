@@ -19,7 +19,11 @@ const gnRegex = /^gn(\s|$)/i;
 const gmRegex = /^gm(\s|$)/i;
 
 export interface MessageHandler {
-    execute: (message: Message, ...args: any[]) => Promise<void>;
+    execute: (
+        message: Message,
+        args?: string[],
+        dependencies?: Record<string, any>
+    ) => Promise<void>;
 }
 
 export const handleMessages = async (client: Client) => {

@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { MessageHandler } from "../messageHandler";
 
-const execute = async (message: Message, args: string[]) => {
+const execute = async (message: Message, args: string[] = []) => {
     let max = 100; // Default maximum value for the random number
     if (args.length > 0) {
         // If a maximum number is provided as an argument, parse it
