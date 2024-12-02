@@ -11,6 +11,7 @@ import { gm } from "./responses/gm";
 import { generateRandomUnicodeString } from "../../utils/stringUtils";
 import { impersonate } from "./responses/impersonate";
 import { yt } from "./commands/yt";
+import { thumbnail } from "./commands/thumbnail";
 
 const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/[0-9]+/g;
 const counterStrikeRegex = /\b(counter strike|counterstrike|csgo|cs|cs2|counter-strike)\b/i;
@@ -131,6 +132,9 @@ const handleCommands = (message: Message) => {
             break;
         case 'yt':
             yt.execute(message, args)
+            break;
+        case 'thumbnail':
+            thumbnail.execute(message, args)
             break;
     }
 }
