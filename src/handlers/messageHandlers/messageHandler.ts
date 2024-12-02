@@ -1,5 +1,5 @@
 import { Client, Message } from "discord.js";
-import { USER_HUTAO, USER_KEVIN, USER_KYLE, USER_MAJ, USER_SLEEPHILL } from "../../constants/entityIdConstants";
+import { USER_KEVIN, USER_KYLE, USER_MAJ, USER_SLEEPHILL } from "../../constants/entityIdConstants";
 import { delayDelete, delayRemoveReactions, proc } from "../../utils/wrapperUtils";
 import { COMMAND_PREFIX, MESSAGE_MAX_LENGTH } from "../../constants/globalConstants";
 import { getAssetPath } from "../../utils/fileUtils";
@@ -59,7 +59,7 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
             proc(0.10, () => impersonate.execute(message));
         }
 
-        if (message.mentions.has(USER_HUTAO)) {
+        if (message.mentions.has(client.user!)) {
             hutao.execute(message);
         }
     });
