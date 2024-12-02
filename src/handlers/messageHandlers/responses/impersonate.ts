@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { MessageHandler } from "../messageHandler";
 import { getAssetPath } from "../../../utils/fileUtils";
-import { ROLE_HUTAO_COLOR, USER_HUTAO } from "../../../constants/entityIdConstants";
+import { ROLE_HUTAO_COLOR } from "../../../constants/entityIdConstants";
 import { getRandomBrightColor } from "../../../utils/colorUtils";
 import OpenAI from "openai";
 import { removeMentions } from "../../../utils/stringUtils";
