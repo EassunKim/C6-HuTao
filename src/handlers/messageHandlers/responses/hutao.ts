@@ -61,7 +61,7 @@ export class Hutao implements MessageHandler {
     private addToChatHistory(role: "user" | "assistant", content: string): void {
         this.chatHistory.push({ role, content });
 
-        if (this.chatHistory.length > 25) {
+        if (this.chatHistory.length > 10) {
             this.chatHistory.shift();
         }
     }
