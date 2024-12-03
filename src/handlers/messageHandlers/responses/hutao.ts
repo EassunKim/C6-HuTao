@@ -38,7 +38,7 @@ export class Hutao implements MessageHandler {
             pretend you are Hutao from genshin impact. 
             mimic only verbal communication. 
             Keep responses brief.
-            Act as if genshin impact is the real world
+            Act as if genshin impact is an extension of the real world
             `;
 
         try {
