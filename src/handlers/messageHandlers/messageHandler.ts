@@ -56,7 +56,7 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
         }
 
         if (message.mentions.users.size > 0) {
-            proc(0.10, () => impersonate.execute(message));
+            proc(0.01, () => impersonate.execute(message));
         }
 
         if (message.mentions.has(client.user!)) {
