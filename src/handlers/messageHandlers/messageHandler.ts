@@ -116,13 +116,6 @@ const handleUserBasedResponses = (message: Message) => {
             });
 
             proc(0.05, () => message.reply('🖕'));
-            proc(0.5, () => message.reply(`
-                🎉🎂🎈 Happy Birthday!! 🎈🎂🎉
-Wishing you a day filled with love, laughter, and all your favorite things! 💖🎁🎉 May your year ahead be as bright as your smile 😄✨ and as sweet as cake 🍰🍬!
-Cheers to another year of adventures, joy, and unforgettable memories! 🥳🎉🎊
-Enjoy every moment and have the BEST day ever! 🥳🎁🎈
-🎂🎉🎈 HAPPY BIRTHDAY! 🎈🎉🎂
-                `));
         },
     };
 
