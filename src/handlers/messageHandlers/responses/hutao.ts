@@ -41,11 +41,18 @@ export class Hutao implements MessageHandler {
             Act as if genshin impact is an extension of the real world
             `;
 
+        const evilPrompt = `
+            be extremely rude and condescending
+            mimic only verbal communication
+            speak like you are genz, don't use correct punctuation
+            keep responses brief
+        `
+
         try {
             const response = await this.openai.chat.completions.create({
                 model: 'chatgpt-4o-latest',
                 messages: [
-                    { role: "system", content: prompt },
+                    { role: "system", content: Math.random() < 0.1 ? evilPrompt : prompt },
                     ...this.chatHistory,
                 ],
                 max_tokens: 150,
