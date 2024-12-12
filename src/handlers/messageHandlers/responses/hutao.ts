@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { MessageHandler } from "../messageHandler";
 import OpenAI from "openai";
 import { removeMentions } from "../../../utils/stringUtils";
-import { ChatCompletionMessageParam } from "openai/resources";
+import { ChatCompletionCreateParamsNonStreaming, ChatCompletionMessageParam } from "openai/resources";
 
 export class Hutao implements MessageHandler {
     private openai: OpenAI;
@@ -46,17 +46,29 @@ export class Hutao implements MessageHandler {
             mimic only verbal communication
             speak like you are genz, don't use correct punctuation
             keep responses brief
-        `
+        `   
+        let messages: Array<ChatCompletionMessageParam> = []
+
+        if (Math.random() < 0.1) {
+            messages = [
+                { role: "system", content: evilPrompt },
+                this.chatHistory[this.chatHistory.length - 1]
+            ]
+        } else {
+            messages = [
+                { role: "system", content: prompt },
+                ...this.chatHistory,
+            ]
+        }
+
+        const payload: ChatCompletionCreateParamsNonStreaming = {
+            model: 'chatgpt-4o-latest',
+            messages: messages,
+            max_tokens: 150,
+        }
 
         try {
-            const response = await this.openai.chat.completions.create({
-                model: 'chatgpt-4o-latest',
-                messages: [
-                    { role: "system", content: Math.random() < 0.1 ? evilPrompt : prompt },
-                    ...this.chatHistory,
-                ],
-                max_tokens: 150,
-            });
+            const response = await this.openai.chat.completions.create(payload);
 
             return response.choices[0]?.message?.content || null;
         } catch (error) {
