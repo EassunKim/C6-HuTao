@@ -62,3 +62,6 @@ export const removeSurroundingQuotes = (content: string): string => {
     return content;
 }
 
+export const stripMetadata = (content: string): string => {
+    return content.replace(/^[^:]+:\s*/, '').trim();
+}

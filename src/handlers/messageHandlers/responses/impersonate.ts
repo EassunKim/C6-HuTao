@@ -4,8 +4,8 @@ import { getAssetPath } from "../../../utils/fileUtils";
 import { ROLE_HUTAO_COLOR } from "../../../constants/entityIdConstants";
 import { getRandomBrightColor } from "../../../utils/colorUtils";
 import OpenAI from "openai";
-import { removeMentions, removeSurroundingQuotes } from "../../../utils/stringUtils";
-import { toChatCompletionMessageParams } from "../../../utils/messageUtils";
+import { removeMentions, stripMetadata } from "../../../utils/stringUtils";
+import { formatMessages } from "../../../utils/messageUtils";
 import { ChatHistoryManager } from "../messageHelpers/chatHistoryManager";
 
 export class ImpersonateCommand implements MessageHandler {
@@ -90,23 +90,21 @@ export class ImpersonateCommand implements MessageHandler {
                 Keep the response brief and avoid using emojis or punctuation.
             `;
         } else {
-            // Construct the detailed prompt if history is available
-            const userHistoryContent = toChatCompletionMessageParams(userHistory);
-            const allMessagesContent = toChatCompletionMessageParams(allMessages);
+            const userHistoryContent = formatMessages(userHistory).join("\n");
+            const allMessagesContent = formatMessages(allMessages).join("\n");
 
             prompt = `
                 You are impersonating a user on a Discord server. 
                 The following are examples of something they would type:
                 ${userHistoryContent}
 
-                Respond to the last message in this conversation: 
-
-                Based on this context, generate a brief response to the last message in this conversation:
+                generate a brief response to the last message in this conversation:
                 ${allMessagesContent}
 
                 Keep the response in a similar style to the user's past messages. 
-                Don't use emojis or punctuation.
+                Don't use emojis or punctuation, don't mention users.
             `;
+
         }
 
         try {
@@ -119,7 +117,7 @@ export class ImpersonateCommand implements MessageHandler {
             });
 
             const content = response.choices[0]?.message?.content || this.getFallbackResponse();
-            return removeSurroundingQuotes(content);
+            return stripMetadata(content);
         } catch (error) {
             console.error("Error generating response from OpenAI:", error);
             return this.getFallbackResponse();

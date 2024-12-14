@@ -4,7 +4,7 @@ export class ChatHistory {
     private history: Array<Message> = [];
     private maxLength: number;
 
-    constructor(maxLength: number = 10) {
+    constructor(maxLength: number = 20) {
         this.maxLength = maxLength;
     }
 

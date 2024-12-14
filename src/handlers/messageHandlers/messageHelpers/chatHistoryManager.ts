@@ -21,11 +21,9 @@ export class ChatHistoryManager {
     addFromMessage(message: Message): void {
         const userId = message.author.id;
 
-        // Add to individual user's history
         const userHistory = this.getOrCreateHistory(userId);
         userHistory.addFromMessage(message);
 
-        // Add to global history
         this.globalHistory.addFromMessage(message);
     }
 

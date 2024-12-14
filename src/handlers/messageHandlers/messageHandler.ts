@@ -33,11 +33,11 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
 
     client.once('ready', async () => {
         await backfillMessages(client, GUILD_UVIC, CHANNEL_LMFAO, messageHistory);
-        await backfillMessages(client, '569774924256772117', '803209604058054716', messageHistory);
 
     });
 
     client.on('messageCreate', async (message) => {
+        if (message.guild?.id !== GUILD_UVIC) return;
         const cleaned = removeMentions(message.content.trim())
 
         if (cleaned && !isOnlyLinks(cleaned)) {
@@ -69,7 +69,7 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
         }
 
         if (message.mentions.users.size > 0) {
-            proc(0.1, () => impersonate.execute(message));
+            proc(1, () => impersonate.execute(message));
         }
 
         if (message.mentions.has(client.user!)) {
@@ -171,7 +171,7 @@ const backfillMessages = async (
     guildId: string,
     channelId: string,
     messageHistory: ChatHistoryManager,
-    totalMessages: number = 500
+    totalMessages: number = 1000
 ): Promise<void> => {
     try {
         const guild = await client.guilds.fetch(guildId);
