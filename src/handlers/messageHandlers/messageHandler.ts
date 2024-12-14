@@ -1,4 +1,4 @@
-import { Client, Message } from "discord.js";
+import { Client, Collection, Message, TextChannel } from "discord.js";
 import { CHANNEL_LMFAO, GUILD_UVIC, USER_KEVIN, USER_KYLE, USER_MAJ, USER_SLEEPHILL } from "../../constants/entityIdConstants";
 import { delayDelete, delayRemoveReactions, proc } from "../../utils/wrapperUtils";
 import { COMMAND_PREFIX, MESSAGE_MAX_LENGTH } from "../../constants/globalConstants";
@@ -32,7 +32,9 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
     const hutao = new Hutao(openai);
 
     client.once('ready', async () => {
-        await backfillMessages(client, messageHistory);
+        await backfillMessages(client, GUILD_UVIC, CHANNEL_LMFAO, messageHistory);
+        await backfillMessages(client, '569774924256772117', '803209604058054716', messageHistory);
+
     });
 
     client.on('messageCreate', async (message) => {
@@ -167,29 +169,59 @@ const handleCommands = (message: Message) => {
 }
 
 const backfillMessages = async (
-    client: Client, 
-    messageHistory: ChatHistoryManager, 
-    limit: number = 100): Promise<void> => {
+    client: Client,
+    guildId: string,
+    channelId: string,
+    messageHistory: ChatHistoryManager,
+    totalMessages: number = 500
+): Promise<void> => {
     try {
-        const guild = await client.guilds.fetch(GUILD_UVIC);
-        const channel = guild.channels.cache.get(CHANNEL_LMFAO);
+        const guild = await client.guilds.fetch(guildId);
+        const channel = guild.channels.cache.get(channelId);
 
         if (channel?.isTextBased()) {
-            const messages = await channel.messages.fetch({ limit });
-            messages.reverse().forEach(message => {
-                if (
-                    message.content.trim() &&
-                    !isOnlyLinks(message.content) &&
-                    removeMentions(message.content).trim()
-                ) {
-                    messageHistory.addFromMessage(message);
+            const userMessageCount: Map<string, number> = new Map();
+            let lastMessageId: string | undefined;
+            let fetchedMessagesCount = 0;
+
+            while (fetchedMessagesCount < totalMessages) {
+                const options: { limit: number; before?: string } = { limit: Math.min(100, totalMessages - fetchedMessagesCount) };
+                if (lastMessageId) options.before = lastMessageId;
+
+                const messages: Collection<string, Message<true>> = await channel.messages.fetch(options);
+                if (messages.size === 0) break;
+
+                const messagesArray = Array.from(messages.values()).reverse();
+
+                for (const message of messagesArray) {
+                    if (
+                        message.content.trim() &&
+                        !isOnlyLinks(message.content) &&
+                        removeMentions(message.content).trim()
+                    ) {
+                        messageHistory.addFromMessage(message);
+
+                        const userId = message.author.id;
+                        userMessageCount.set(userId, (userMessageCount.get(userId) || 0) + 1);
+                    }
                 }
-            });
-            console.log(`Backfilled ${messages.size} messages`);
+
+                fetchedMessagesCount += messages.size;
+                lastMessageId = messages.last()?.id;
+            }
+
+            console.log(`Backfilled ${fetchedMessagesCount} messages from #${(channel as TextChannel).name}`);
+
+            // Log a summary of user message counts
+            console.log("User Message Summary:");
+            for (const [userId, count] of userMessageCount.entries()) {
+                const user = await client.users.fetch(userId);
+                console.log(`- ${user.tag}: ${count} message(s)`);
+            }
         } else {
-            console.warn(`Channel ${CHANNEL_LMFAO} is not text-based.`);
+            console.warn(`Channel ${channelId} is not text-based.`);
         }
     } catch (error) {
-        console.error(`Failed to backfill messages for guild ${GUILD_UVIC} and channel ${CHANNEL_LMFAO}:`, error);
+        console.error(`Failed to backfill messages for guild ${guildId} and channel ${channelId}:`, error);
     }
 };
