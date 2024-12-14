@@ -4,7 +4,7 @@ import { getAssetPath } from "../../../utils/fileUtils";
 import { ROLE_HUTAO_COLOR } from "../../../constants/entityIdConstants";
 import { getRandomBrightColor } from "../../../utils/colorUtils";
 import OpenAI from "openai";
-import { removeMentions } from "../../../utils/stringUtils";
+import { removeMentions, removeSurroundingQuotes } from "../../../utils/stringUtils";
 import { toChatCompletionMessageParams } from "../../../utils/messageUtils";
 import { ChatHistoryManager } from "../messageHelpers/chatHistoryManager";
 
@@ -96,20 +96,18 @@ export class ImpersonateCommand implements MessageHandler {
 
             prompt = `
                 You are impersonating a user on a Discord server. 
-                The following is the context of their last 10 messages:
+                The following are examples of something they would type:
                 ${userHistoryContent}
 
-                And the last 10 messages from all users on the server:
-                ${allMessagesContent}
+                Respond to the last message in this conversation: 
 
-                Based on this context, generate a brief response to the following message:
-                "${message}"
+                Based on this context, generate a brief response to the last message in this conversation:
+                ${allMessagesContent}
 
                 Keep the response in a similar style to the user's past messages. 
                 Don't use emojis or punctuation.
             `;
         }
-
 
         try {
             const response = await this.openai.chat.completions.create({
@@ -120,7 +118,8 @@ export class ImpersonateCommand implements MessageHandler {
                 max_tokens: 150,
             });
 
-            return response.choices[0]?.message?.content || this.getFallbackResponse();
+            const content = response.choices[0]?.message?.content || this.getFallbackResponse();
+            return removeSurroundingQuotes(content);
         } catch (error) {
             console.error("Error generating response from OpenAI:", error);
             return this.getFallbackResponse();

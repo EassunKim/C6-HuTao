@@ -54,3 +54,11 @@ export const isOnlyLinks = (content: string): boolean => {
     const contentWithoutLinks = content.replace(urlRegex, '').trim();
     return contentWithoutLinks.length === 0;
 };
+
+export const removeSurroundingQuotes = (content: string): string => {
+    if (content.startsWith('"') && content.endsWith('"')) {
+        return content.slice(1, -1);
+    }
+    return content;
+}
+

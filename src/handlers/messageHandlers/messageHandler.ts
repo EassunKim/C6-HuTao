@@ -28,7 +28,7 @@ export interface MessageHandler {
 export const handleMessages = async (client: Client, openai: OpenAI) => {
 
     const messageHistory = new ChatHistoryManager();
-    const impersonate = new ImpersonateCommand(openai, messageHistory)
+    const impersonate = new ImpersonateCommand(openai, messageHistory);
     const hutao = new Hutao(openai);
 
     client.once('ready', async () => {
@@ -38,14 +38,12 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
     });
 
     client.on('messageCreate', async (message) => {
-        if (message.content.trim() &&
-            !isOnlyLinks(message.content) &&
-            removeMentions(message.content).trim()
-        ) {
+        const cleaned = removeMentions(message.content.trim())
+
+        if (cleaned && !isOnlyLinks(cleaned)) {
             messageHistory.addFromMessage(message);
         }
 
-        messageHistory.addFromMessage(message);
         if (message.author.bot) return;
 
         handleExplicitMatchMessages(message);
@@ -71,7 +69,7 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
         }
 
         if (message.mentions.users.size > 0) {
-            proc(1, () => impersonate.execute(message));
+            proc(0.1, () => impersonate.execute(message));
         }
 
         if (message.mentions.has(client.user!)) {
