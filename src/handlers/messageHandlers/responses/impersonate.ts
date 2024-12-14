@@ -63,7 +63,11 @@ export class ImpersonateCommand implements MessageHandler {
         setTimeout(async () => {
             await botUser?.setNickname(null);
             const defaultAvatar = getAssetPath("default-avatar.png");
-            await message.client.user?.setAvatar(defaultAvatar);
+            try {
+                await message.client.user?.setAvatar(defaultAvatar);
+            } catch (e) {
+                console.log("Failed to set avatar: ", e);
+            }
             await botRole?.setColor(getRandomBrightColor());
         }, 60000);
     }
