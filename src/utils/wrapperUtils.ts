@@ -3,6 +3,7 @@ import { Message } from "discord.js";
 export const proc = (chance: number, fn: () => void) => {
     if (Math.random() < chance) {
         fn();
+        return true;
     }
 }
 

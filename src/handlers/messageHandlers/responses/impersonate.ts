@@ -23,14 +23,19 @@ export class ImpersonateCommand implements MessageHandler {
         this.openai = openai;
         this.chatHistoryManager = chatHistoryManager;
     }
+    
 
     async execute(message: Message): Promise<void> {
         const mentionedUsers = Array.from(message.mentions.users.values())
             .filter(user => !user.bot);
-        const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
+        
         if (mentionedUsers.length === 0) return;
 
-        const targetMember = message.guild?.members.cache.get(randomUser.id);
+        await this.impersonateRandom(message, mentionedUsers);
+    }
+
+    async impersonateUser(message: Message, targetUserId: string): Promise<void> {
+        const targetMember = message.guild?.members.cache.get(targetUserId);
         if (!targetMember) return;
 
         const botUser = message.guild?.members.cache.get(message.client.user?.id || "");
@@ -59,7 +64,7 @@ export class ImpersonateCommand implements MessageHandler {
 
         await message.reply(response);
 
-        // Cleanup
+        // Cleanup after 60 seconds
         setTimeout(async () => {
             await botUser?.setNickname(null);
             const defaultAvatar = getAssetPath("default-avatar.png");
@@ -70,6 +75,11 @@ export class ImpersonateCommand implements MessageHandler {
             }
             await botRole?.setColor(getRandomBrightColor());
         }, 60000);
+    }
+
+    private async impersonateRandom(message: Message, mentionedUsers: Array<import("discord.js").User>): Promise<void> {
+        const randomUser = mentionedUsers[Math.floor(Math.random() * mentionedUsers.length)];
+        await this.impersonateUser(message, randomUser.id);
     }
 
     private async generateResponse(
