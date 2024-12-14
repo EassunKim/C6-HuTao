@@ -109,7 +109,7 @@ const handleUserBasedResponses = (message: Message) => {
             await proc(0.05, async () => {
                 const replyPayload = generateRandomUnicodeString(MESSAGE_MAX_LENGTH);
                 const reply = await message.channel.send(replyPayload);
-                await delayDelete(reply, 1000);
+                await delayDelete(reply, 500);
             });
         },
         [USER_KYLE]: async () => {
