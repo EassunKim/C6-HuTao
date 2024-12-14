@@ -3,25 +3,23 @@ import { MessageHandler } from "../messageHandler";
 import OpenAI from "openai";
 import { removeMentions } from "../../../utils/stringUtils";
 import { ChatCompletionCreateParamsNonStreaming, ChatCompletionMessageParam } from "openai/resources";
-import { ChatHistory } from "../messageHelpers/chatHistory";
 import { toChatCompletionMessageParam, toChatCompletionMessageParams } from "../../../utils/messageUtils";
+import { ChatHistoryManager } from "../messageHelpers/chatHistoryManager";
 
 export class Hutao implements MessageHandler {
     private openai: OpenAI;
-    private chatHistory: ChatHistory;
+    private chatHistoryManager: ChatHistoryManager;
 
-    constructor(openai: OpenAI) {
+    constructor(openai: OpenAI, chatHistoryManager: ChatHistoryManager) {
         this.openai = openai;
-        this.chatHistory = new ChatHistory(10);
+        this.chatHistoryManager = chatHistoryManager;
     }
 
     async execute(message: Message): Promise<void> {
         const content = removeMentions(message.content);
         if (!content) return;
 
-        this.chatHistory.addFromMessage(message);
-        
-        const response = await this.generateResponse();
+        const response = await this.generateResponse(message);
 
         if (!response) {
             return;
@@ -31,10 +29,10 @@ export class Hutao implements MessageHandler {
         await message.channel.sendTyping();
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        this.chatHistory.addFromMessage(await message.reply(response));
+        await message.reply(response);
     }
 
-    private async generateResponse(): Promise<string | null> {
+    private async generateResponse(message: Message): Promise<string | null> {
         const prompt = `
             pretend you are Hutao from genshin impact. 
             mimic only verbal communication. 
@@ -45,19 +43,18 @@ export class Hutao implements MessageHandler {
         const evilPrompt = `
             be extremely rude and condescending
             mimic only verbal communication
-            speak like you are genz, don't use correct punctuation
+            don't use correct punctuation
             keep responses brief
         `;
 
-        const latestMessage = toChatCompletionMessageParam(this.chatHistory.latest()!);
         const messages: Array<ChatCompletionMessageParam> = Math.random() < 0.1
             ? [
                 { role: "system", content: evilPrompt },
-                ...(latestMessage ? [latestMessage] : [])
+                toChatCompletionMessageParam(message)
             ]
             : [
                 { role: "system", content: prompt },
-                ...toChatCompletionMessageParams(this.chatHistory.get()),
+                ...toChatCompletionMessageParams(this.chatHistoryManager.getGlobal()),
             ];
 
         const payload: ChatCompletionCreateParamsNonStreaming = {

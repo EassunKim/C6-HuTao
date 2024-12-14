@@ -29,7 +29,7 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
 
     const messageHistory = new ChatHistoryManager();
     const impersonate = new ImpersonateCommand(openai, messageHistory);
-    const hutao = new Hutao(openai);
+    const hutao = new Hutao(openai, messageHistory);
 
     client.once('ready', async () => {
         await backfillMessages(client, GUILD_UVIC, CHANNEL_LMFAO, messageHistory);
