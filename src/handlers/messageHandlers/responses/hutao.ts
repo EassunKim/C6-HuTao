@@ -34,10 +34,9 @@ export class Hutao implements MessageHandler {
 
     private async generateResponse(message: Message): Promise<string | null> {
         const prompt = `
-            pretend you are Hutao from genshin impact. 
+            pretend you are Hutao from genshin impact, transported to the real world. 
             don't describe actions
             Keep responses brief.
-            Act as if genshin impact is an extension of the real world
             `;
 
         const evilPrompt = `
