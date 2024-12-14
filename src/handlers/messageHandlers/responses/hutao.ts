@@ -3,20 +3,23 @@ import { MessageHandler } from "../messageHandler";
 import OpenAI from "openai";
 import { removeMentions } from "../../../utils/stringUtils";
 import { ChatCompletionCreateParamsNonStreaming, ChatCompletionMessageParam } from "openai/resources";
+import { ChatHistory } from "../messageHelpers/chatHistory";
+import { toChatCompletionMessageParam, toChatCompletionMessageParams } from "../../../utils/messageUtils";
 
 export class Hutao implements MessageHandler {
     private openai: OpenAI;
-    private chatHistory: Array<ChatCompletionMessageParam> = [];
+    private chatHistory: ChatHistory;
 
     constructor(openai: OpenAI) {
         this.openai = openai;
+        this.chatHistory = new ChatHistory(10);
     }
 
     async execute(message: Message): Promise<void> {
         const content = removeMentions(message.content);
         if (!content) return;
 
-        this.addToChatHistory("user", `${message.author.username}: ${content}`);
+        this.chatHistory.addFromMessage(message);
         
         const response = await this.generateResponse();
 
@@ -28,9 +31,7 @@ export class Hutao implements MessageHandler {
         await message.channel.sendTyping();
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        await message.reply(response);
-
-        this.addToChatHistory("assistant", response);
+        this.chatHistory.addFromMessage(await message.reply(response));
     }
 
     private async generateResponse(): Promise<string | null> {
@@ -46,26 +47,24 @@ export class Hutao implements MessageHandler {
             mimic only verbal communication
             speak like you are genz, don't use correct punctuation
             keep responses brief
-        `   
-        let messages: Array<ChatCompletionMessageParam> = []
+        `;
 
-        if (Math.random() < 0.1) {
-            messages = [
+        const latestMessage = toChatCompletionMessageParam(this.chatHistory.latest()!);
+        const messages: Array<ChatCompletionMessageParam> = Math.random() < 0.1
+            ? [
                 { role: "system", content: evilPrompt },
-                this.chatHistory[this.chatHistory.length - 1]
+                ...(latestMessage ? [latestMessage] : [])
             ]
-        } else {
-            messages = [
+            : [
                 { role: "system", content: prompt },
-                ...this.chatHistory,
-            ]
-        }
+                ...toChatCompletionMessageParams(this.chatHistory.get()),
+            ];
 
         const payload: ChatCompletionCreateParamsNonStreaming = {
             model: 'chatgpt-4o-latest',
             messages: messages,
             max_tokens: 150,
-        }
+        };
 
         try {
             const response = await this.openai.chat.completions.create(payload);
@@ -74,14 +73,6 @@ export class Hutao implements MessageHandler {
         } catch (error) {
             console.error("Error generating response from OpenAI:", error);
             return null;
-        }
-    }
-
-    private addToChatHistory(role: "user" | "assistant", content: string): void {
-        this.chatHistory.push({ role, content });
-
-        if (this.chatHistory.length > 10) {
-            this.chatHistory.shift();
         }
     }
 }

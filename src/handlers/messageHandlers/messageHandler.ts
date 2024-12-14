@@ -1,5 +1,5 @@
 import { Client, Message } from "discord.js";
-import { USER_KEVIN, USER_KYLE, USER_MAJ, USER_SLEEPHILL } from "../../constants/entityIdConstants";
+import { CHANNEL_LMFAO, GUILD_UVIC, USER_KEVIN, USER_KYLE, USER_MAJ, USER_SLEEPHILL } from "../../constants/entityIdConstants";
 import { delayDelete, delayRemoveReactions, proc } from "../../utils/wrapperUtils";
 import { COMMAND_PREFIX, MESSAGE_MAX_LENGTH } from "../../constants/globalConstants";
 import { getAssetPath } from "../../utils/fileUtils";
@@ -8,12 +8,13 @@ import { roll } from "./commands/roll";
 import { lfg } from "./commands/lfg";
 import { gn } from "./responses/gn";
 import { gm } from "./responses/gm";
-import { generateRandomUnicodeString } from "../../utils/stringUtils";
+import { generateRandomUnicodeString, isOnlyLinks, removeMentions } from "../../utils/stringUtils";
 import { ImpersonateCommand } from "./responses/impersonate";
 import { yt } from "./commands/yt";
 import { thumbnail } from "./commands/thumbnail";
 import OpenAI from "openai";
 import { Hutao } from "./responses/hutao";
+import { ChatHistoryManager } from "./messageHelpers/chatHistoryManager";
 
 const twitterRegex = /https:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/[0-9]+/g;
 const counterStrikeRegex = /\b(counter strike|counterstrike|csgo|cs|cs2|counter-strike)\b/i;
@@ -24,13 +25,25 @@ export interface MessageHandler {
     execute: (message: Message, args?: string[]) => Promise<void>;
 }
 
-
 export const handleMessages = async (client: Client, openai: OpenAI) => {
 
-    const impersonate = new ImpersonateCommand(openai)
+    const messageHistory = new ChatHistoryManager();
+    const impersonate = new ImpersonateCommand(openai, messageHistory)
     const hutao = new Hutao(openai);
 
+    client.once('ready', async () => {
+        await backfillMessages(client, messageHistory);
+    });
+
     client.on('messageCreate', async (message) => {
+        if (message.content.trim() &&
+            !isOnlyLinks(message.content) &&
+            removeMentions(message.content).trim()
+        ) {
+            messageHistory.addFromMessage(message);
+        }
+
+        messageHistory.addFromMessage(message);
         if (message.author.bot) return;
 
         handleExplicitMatchMessages(message);
@@ -56,7 +69,7 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
         }
 
         if (message.mentions.users.size > 0) {
-            proc(0.01, () => impersonate.execute(message));
+            proc(1, () => impersonate.execute(message));
         }
 
         if (message.mentions.has(client.user!)) {
@@ -152,3 +165,31 @@ const handleCommands = (message: Message) => {
             break;
     }
 }
+
+const backfillMessages = async (
+    client: Client, 
+    messageHistory: ChatHistoryManager, 
+    limit: number = 100): Promise<void> => {
+    try {
+        const guild = await client.guilds.fetch(GUILD_UVIC);
+        const channel = guild.channels.cache.get(CHANNEL_LMFAO);
+
+        if (channel?.isTextBased()) {
+            const messages = await channel.messages.fetch({ limit });
+            messages.reverse().forEach(message => {
+                if (
+                    message.content.trim() &&
+                    !isOnlyLinks(message.content) &&
+                    removeMentions(message.content).trim()
+                ) {
+                    messageHistory.addFromMessage(message);
+                }
+            });
+            console.log(`Backfilled ${messages.size} messages`);
+        } else {
+            console.warn(`Channel ${CHANNEL_LMFAO} is not text-based.`);
+        }
+    } catch (error) {
+        console.error(`Failed to backfill messages for guild ${GUILD_UVIC} and channel ${CHANNEL_LMFAO}:`, error);
+    }
+};

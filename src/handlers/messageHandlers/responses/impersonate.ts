@@ -5,9 +5,12 @@ import { ROLE_HUTAO_COLOR } from "../../../constants/entityIdConstants";
 import { getRandomBrightColor } from "../../../utils/colorUtils";
 import OpenAI from "openai";
 import { removeMentions } from "../../../utils/stringUtils";
+import { toChatCompletionMessageParams } from "../../../utils/messageUtils";
+import { ChatHistoryManager } from "../messageHelpers/chatHistoryManager";
 
 export class ImpersonateCommand implements MessageHandler {
     private openai: OpenAI;
+    private chatHistoryManager: ChatHistoryManager;
 
     private readonly fallbackResponses = [
         "huh",
@@ -16,8 +19,9 @@ export class ImpersonateCommand implements MessageHandler {
         "lol",
     ];
 
-    constructor(openai: OpenAI) {
+    constructor(openai: OpenAI, chatHistoryManager: ChatHistoryManager) {
         this.openai = openai;
+        this.chatHistoryManager = chatHistoryManager;
     }
 
     async execute(message: Message): Promise<void> {
@@ -32,6 +36,7 @@ export class ImpersonateCommand implements MessageHandler {
         const botUser = message.guild?.members.cache.get(message.client.user?.id || "");
         const botRole = await message.guild?.roles.fetch(ROLE_HUTAO_COLOR);
 
+        // Impersonate the target user
         await botUser?.setNickname(targetMember.displayName);
         botRole?.setColor(targetMember.displayHexColor);
         try {
@@ -47,7 +52,10 @@ export class ImpersonateCommand implements MessageHandler {
         await message.channel.sendTyping();
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        const response = await this.generateResponse(content);
+        const userHistory = this.chatHistoryManager.get(targetMember.id);
+        const allMessages = this.chatHistoryManager.getGlobal();
+
+        const response = await this.generateResponse(content, userHistory, allMessages);
 
         await message.reply(response);
 
@@ -60,21 +68,52 @@ export class ImpersonateCommand implements MessageHandler {
         }, 60000);
     }
 
-    private async generateResponse(message: string): Promise<string> {
-        const prompt = `
-        Give a brief and neutral response that a gen z person would use to respond to this message: ${message}.
-        assume the sender is also gen z, don't use emojis, avoid correct punctuation and questions
-        `
+    private async generateResponse(
+        message: string,
+        userHistory: Array<Message>,
+        allMessages: Array<Message>
+    ): Promise<string> {
+        let prompt: string;
+
+        if (userHistory.length === 0 || allMessages.length === 0) {
+            // Fallback prompt if user or server history are unavailable
+            prompt = `
+                You are impersonating a user on a Discord server. 
+
+                Respond generically like a Gen Z user to the following message:
+                "${message}"
+
+                Keep the response brief and avoid using emojis or punctuation.
+            `;
+        } else {
+            // Construct the detailed prompt if history is available
+            const userHistoryContent = toChatCompletionMessageParams(userHistory);
+            const allMessagesContent = toChatCompletionMessageParams(allMessages);
+
+            prompt = `
+                You are impersonating a user on a Discord server. 
+                The following is the context of their last 10 messages:
+                ${userHistoryContent}
+
+                And the last 10 messages from all users on the server:
+                ${allMessagesContent}
+
+                Based on this context, generate a brief response to the following message:
+                "${message}"
+
+                Keep the response in a similar style to the user's past messages. 
+                Don't use emojis or punctuation.
+            `;
+        }
+
+
         try {
             const response = await this.openai.chat.completions.create({
-                model: "gpt-3.5-turbo",
+                model: "chatgpt-4o-latest",
                 messages: [
-                    {
-                        role: "system",
-                        content: prompt,
-                    },
+                    { role: "system", content: prompt },
                 ],
-                max_tokens: 100,
+                max_tokens: 150,
             });
 
             return response.choices[0]?.message?.content || this.getFallbackResponse();
@@ -83,6 +122,7 @@ export class ImpersonateCommand implements MessageHandler {
             return this.getFallbackResponse();
         }
     }
+
 
     private getFallbackResponse(): string {
         return this.fallbackResponses[

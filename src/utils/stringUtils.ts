@@ -48,3 +48,9 @@ export const removeMentions = (message: string) => {
         .replace(/<#(\d+)>/g, "")
         .trim();
 }
+
+export const isOnlyLinks = (content: string): boolean => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const contentWithoutLinks = content.replace(urlRegex, '').trim();
+    return contentWithoutLinks.length === 0;
+};
