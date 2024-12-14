@@ -144,6 +144,9 @@ const handleCommands = (message: Message) => {
         case 'yt':
             yt.execute(message, args)
             break;
+        case 'vomit':
+            message.reply(generateRandomUnicodeString(MESSAGE_MAX_LENGTH))
+            break;
         case 'thumbnail':
             thumbnail.execute(message, args)
             break;
