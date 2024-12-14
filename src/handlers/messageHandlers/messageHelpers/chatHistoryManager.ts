@@ -6,7 +6,7 @@ export class ChatHistoryManager {
     private globalHistory: ChatHistory;
     private readonly maxLength: number;
 
-    constructor(maxLength: number = 10) {
+    constructor(maxLength: number = 20) {
         this.maxLength = maxLength;
         this.globalHistory = new ChatHistory(maxLength);
     }
