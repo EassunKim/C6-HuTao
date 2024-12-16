@@ -119,7 +119,7 @@ export class ImpersonateCommand implements MessageHandler {
 
         try {
             const response = await this.openai.chat.completions.create({
-                model: "chatgpt-4o-latest",
+                model: 'gpt-4o-mini',
                 messages: [
                     { role: "system", content: prompt },
                 ],
