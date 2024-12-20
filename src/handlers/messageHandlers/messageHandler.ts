@@ -120,7 +120,7 @@ const handleUserBasedResponses = (message: Message) => {
             });
         },
         [USER_SLEEPHILL]: async () => {
-            proc(0.05, () => message.delete());
+            proc(0.01, () => message.delete());
         },
         [USER_MAJ]: async () => {
             proc(0.05, async () => {
