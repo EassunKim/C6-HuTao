@@ -53,8 +53,12 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
         if (twitterRegex.test(message.content)) {
             const match = message.content.match(twitterRegex);
             message.suppressEmbeds(true);
-            message.reply(match![0].replace(/(twitter\.com|x\.com)/, 'vxtwitter.com'));
+            message.reply({
+                content: match![0].replace(/(twitter\\.com|x\\.com)/, 'vxtwitter.com'),
+                allowedMentions: { users: [] }
+            });
         }
+
 
         if (counterStrikeRegex.test(message.content)) {
             message.channel.send(`<@${USER_KEVIN}> counter strike mentioned`)
