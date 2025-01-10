@@ -58,7 +58,7 @@ export class Hutao implements MessageHandler {
         console.log(message);
 
         const payload: ChatCompletionCreateParamsNonStreaming = {
-            model: 'chatgpt-4o-latest',
+            model: 'gpt-4o-mini',
             messages: messages,
             max_tokens: 150,
         };
