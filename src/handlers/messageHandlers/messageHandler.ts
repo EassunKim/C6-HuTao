@@ -54,7 +54,7 @@ export const handleMessages = async (client: Client, openai: OpenAI) => {
             const match = message.content.match(twitterRegex);
             message.suppressEmbeds(true);
             message.reply({
-                content: match![0].replace(/(twitter\\.com|x\\.com)/, 'vxtwitter.com'),
+                content: match![0].replace(/(twitter\.com|x\.com)/, 'vxtwitter.com'),
                 allowedMentions: { users: [] }
             });
         }
